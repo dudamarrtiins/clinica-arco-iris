@@ -1,7 +1,7 @@
 <header>
     <nav>
         <div>
-        <a href="/../index.php">Painel</a>
+        <a href="/../painel.php">Painel</a>
 
         <a href="/app/agenda.php">Agenda  </a>
 

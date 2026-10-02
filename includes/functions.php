@@ -36,7 +36,7 @@ function cadastrar($conexao, $nome, $cpf, $nasc, $idade, $convenio, $sexo, $tele
     }
 }
 
-//                  SELECT - PRONTUARIO 
+//                  SELECT - PRONTUARIO - VER TODOS
 
 function prontuario($conexao)
 {
@@ -156,6 +156,7 @@ function atualizar($conexao, $id, $nome, $cpf, $nasc, $idade, $convenio, $sexo, 
     }
 }
 
+//                     SELECT W - CONSULTAR - VER UM SO
 function consultar($conexao, $nome)
 {
 
@@ -174,10 +175,133 @@ function consultar($conexao, $nome)
         echo "Idade: {$paciente['idade']}<br>";
         echo "Convenio: {$paciente['convenio']}<br>";
         echo "Sexo: {$paciente['sexo']}<br>";
-        
+      
+        $sqlTel = "SELECT telefone FROM telefone WHERE id_paciente = :id_paciente";
+
+            $stmtTel = $conexao->prepare($sqlTel);
+
+            $stmtTel->bindParam(":id_paciente", $paciente['id']);
+
+            $stmtTel->execute();
+
+            $sqltel = $stmtTel->fetch(PDO::FETCH_ASSOC);
+
+            if ($sqltel) {
+                echo "telefone: {$sqltel['telefone']}<br>";
+            } else {
+                echo "telefone: Não cadastrado<br>";
+            }
+
     } catch (PDOException $e) {
         echo "Erro: " . $e->getMessage();
     }
 }
 
+//                        ENTRADA DE DINHEIRO - GESTAO
+
+function entrada($conexao, $valor_entrada, $dia)
+{
+    require_once __DIR__ . '/../database/connect.php'; // mostra o caminho 
+
+    $sql = "INSERT INTO entrada (valor_entrada, dia) VALUES (:entrada, :dia)";  
+
+    try { // ta atribuindo os valores para as colunas
+        $stmt = $conexao->prepare($sql);
+        $stmt->bindParam(":entrada", $valor_entrada);
+        $stmt->bindParam(":dia", $dia);
+        $stmt->execute();
+         echo "Registrado Ganho!";
+    } catch (PDOException $e) {
+        echo "Erro: " . $e->getMessage();
+    }
+}
+
+//                       SAIDA DE DINHEIRO - GESTAO
+
+function saida($conexao, $valor_saida, $dia)
+{
+    require_once __DIR__ . '/../database/connect.php'; // mostra o caminho 
+
+    $sql = "INSERT INTO saida (valor_saida, dia) VALUES (:saida, :dia)";  
+
+    try { // ta atribuindo os valores para as colunas
+        $stmt = $conexao->prepare($sql);
+        $stmt->bindParam(":saida", $valor_saida);
+        $stmt->bindParam(":dia", $dia);
+        $stmt->execute();
+        echo "Registrado Gasto!";
+    } catch (PDOException $e) {
+        echo "Erro: " . $e->getMessage();
+    }
+}
+
+
+//                            EXTRATO
+
+function extrato($conexao)
+{
+    require_once __DIR__ . '/../database/connect.php';
+
+   
+    $stmtE = $conexao->prepare("SELECT * FROM entrada");
+    $stmtE->execute();
+    $entradas = $stmtE->fetchAll(PDO::FETCH_ASSOC);
+
+    
+    foreach ($entradas as $e) {
+        echo "<br>Valor Ganho: " . $e['valor_entrada'] . "<br>";
+        echo "Valor Gasto: 0<br>";
+        echo "Data: " . $e['dia'] . "<br><hr>";
+    }
+
+    
+    $stmtS = $conexao->prepare("SELECT * FROM saida");
+    $stmtS->execute();
+    $saidas = $stmtS->fetchAll(PDO::FETCH_ASSOC);
+
+    
+    foreach ($saidas as $s) {
+        echo "Valor Ganho: 0<br>";
+        echo "Valor Gasto: " . $s['valor_saida'] . "<br>";
+        echo "Data: " . $s['dia'] . "<br><hr>";
+    }
+}
+
+//            Cadastrar USER
+function cadastrar_user($conexao, $email, $senha)
+{
+    require_once '../database/connect.php';
+
+    $sql = "INSERT INTO usuarios (email, senha) VALUES (:email, :senha)";
+
+    try {
+        $stmt = $conexao->prepare($sql);
+        $stmt->bindParam(":email", $email);
+        $stmt->bindParam(":senha", $senha);
+
+        $stmt->execute();
+        echo "Usuário cadastrado com sucesso!!";
+    } catch (PDOException $e) {
+        echo "Erro: " . $e->getMessage();
+    }
+}
+
+//                   VE SE O USER EXISTE 
+
+function consulta_user($conexao, $email)
+{
+
+    $sql = "SELECT id, email, senha FROM usuarios WHERE email = :email";
+
+    try {
+        $stmt = $conexao->prepare($sql);
+        $stmt->bindParam(":email", $email);
+        $stmt->execute();
+
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $usuario; // para globalizar ela
+    } catch (PDOException $e) {
+        echo "Erro: " . $e->getMessage();
+    }
+}
 ?>
