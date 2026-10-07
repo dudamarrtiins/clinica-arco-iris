@@ -14,6 +14,150 @@ $consultas = listarConsultas($conexao);
 <head>
     <meta charset="UTF-8">
     <title>Agenda</title>
+
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        body {
+            background-color: #fff3ed; /* Fundo Bege */
+            min-height: 100vh;
+        }
+
+        /* SEGUNDA FAIXA AZUL DO TOPO: BEM FININHA E ESPAÇADA */
+        .submenu-topo {
+            background-color: #72a9ed;
+            padding: 4px 0;      /* Espessura bem fininha */
+            margin-top: 15px;    /* Espaço do nav principal */
+            text-align: center;
+        }
+
+        .submenu-topo a {
+            color: #000;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 0 30px;
+        }
+
+        main {
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centraliza as caixinhas na tela */
+            gap: 30px;          /* Espaçamento entre os cards */
+        }
+
+        /* CAIXINHA AZUL FLUTUANTE (Formulário) */
+        .card-agendamento {
+            background-color: #72a9ed;
+            padding: 25px 30px;
+            border-radius: 25px; /* Cantos arredondados */
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Efeito flutuante */
+        }
+
+        .card-agendamento h3 {
+            text-align: center;
+            font-size: 20px;
+            font-weight: normal;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .card-agendamento label {
+            display: block;
+            font-size: 17px;
+            margin-top: 12px;
+            margin-bottom: 6px;
+            color: #000;
+        }
+
+        .card-agendamento input[type="text"],
+        .card-agendamento input[type="tel"] {
+            width: 100%;
+            background-color: #d9d9d9;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .grupo-convenio {
+            margin-top: 18px;
+            font-size: 17px;
+            color: #000;
+        }
+
+        .grupo-convenio input[type="radio"] {
+            margin-left: 10px;
+            margin-right: 5px;
+        }
+
+        .btn-agendar {
+            display: block;
+            width: 100%;
+            background-color: #ffffff;
+            color: #000;
+            border: none;
+            padding: 10px;
+            border-radius: 20px;
+            font-size: 16px;
+            margin-top: 22px;
+            cursor: pointer;
+        }
+
+        /* CAIXINHA AZUL FLUTUANTE (Dados do Paciente) */
+        .card-paciente {
+            background-color: #72a9ed;
+            color: #000;
+            padding: 25px 30px;
+            border-radius: 25px; /* Cantos arredondados */
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Efeito flutuante */
+        }
+
+        .card-paciente h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding-bottom: 8px;
+        }
+
+        .card-paciente p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        /* Ações dentro do card do paciente */
+        .acoes-card {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .acoes-card a {
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 5px;
+        }
+
+        .acoes-card a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    
 </head>
 <body>
     <?php include __DIR__ . '/../includes/header.php'; ?>
