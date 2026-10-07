@@ -304,4 +304,99 @@ function consulta_user($conexao, $email)
         echo "Erro: " . $e->getMessage();
     }
 }
+
+//                         AGENDAMENTO 
+// 1. Marca um novo atendimento (status inicia automaticamente como 'agendada')
+function agendarConsulta($conexao, $id_paciente, $dia, $hora)
+{
+    $sql = "INSERT INTO consultas (id_paciente, dia, hora, status) 
+            VALUES (:id_paciente, :dia, :hora, 'agendada')";
+    
+    try {
+        $stmt = $conexao->prepare($sql);
+        $stmt->bindParam(':id_paciente', $id_paciente);
+        $stmt->bindParam(':dia', $dia);
+        $stmt->bindParam(':hora', $hora);
+        return $stmt->execute();
+    } catch (PDOException $e) {
+        echo "Erro ao agendar: " . $e->getMessage();
+        return false;
+    }
+}
+
+// 2. Atualiza o status da consulta ('agendada', 'realizada', 'cancelada')
+function atualizarStatusConsulta($conexao, $id_consulta, $novo_status)
+{
+    $sql = "UPDATE consultas SET status = :status WHERE id = :id";
+    
+    try {
+        $stmt = $conexao->prepare($sql);
+        $stmt->bindParam(':status', $novo_status);
+        $stmt->bindParam(':id', $id_consulta);
+        return $stmt->execute();
+    } catch (PDOException $e) {
+        echo "Erro ao atualizar status: " . $e->getMessage();
+        return false;
+    }
+}
+
+// 3. Atalho para cancelar a consulta
+function cancelarConsulta($conexao, $id_consulta)
+{
+    return atualizarStatusConsulta($conexao, $id_consulta, 'cancelada');
+}
+
+// 4. Apaga definitivamente do banco de dados (Delete)
+function deletarConsulta($conexao, $id_consulta)
+{
+    $sql = "DELETE FROM consultas WHERE id = :id";
+    
+    try {
+        $stmt = $conexao->prepare($sql);
+        $stmt->bindParam(':id', $id_consulta);
+        return $stmt->execute();
+    } catch (PDOException $e) {
+        echo "Erro ao deletar: " . $e->getMessage();
+        return false;
+    }
+}
+
+// 5. Remarca a data e o horário de uma consulta
+function remarcarConsulta($conexao, $id_consulta, $novo_dia, $nova_hora)
+{
+    $sql = "UPDATE consultas SET dia = :dia, hora = :hora WHERE id = :id";
+    
+    try {
+        $stmt = $conexao->prepare($sql);
+        $stmt->bindParam(':dia', $novo_dia);
+        $stmt->bindParam(':hora', $nova_hora);
+        $stmt->bindParam(':id', $id_consulta);
+        return $stmt->execute();
+    } catch (PDOException $e) {
+        echo "Erro ao remarcar: " . $e->getMessage();
+        return false;
+    }
+}
+
+// 6. Lista todas as consultas marcadas
+function listarConsultas($conexao)
+{
+    $sql = "SELECT c.*, p.nome AS paciente_nome 
+            FROM consultas c
+            LEFT JOIN paciente p ON c.id_paciente = p.id
+            ORDER BY c.dia ASC, c.hora ASC";
+    
+    try {
+        $stmt = $conexao->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo "Erro ao buscar consultas: " . $e->getMessage();
+        return [];
+    }
+}
+
+
+
+
 ?>

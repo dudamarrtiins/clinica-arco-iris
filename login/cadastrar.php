@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <?php include __DIR__ . '/../includes/header.php'; ?>
+   
 
     <main>
         <h3>Cadastre-se no Sistema:</h3>
