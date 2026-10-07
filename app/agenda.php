@@ -19,9 +19,9 @@ $consultas = listarConsultas($conexao);
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <main>
-        <h2>Agenda de Consultas</h2>
+        <h2>Agenda de Atendimentos</h2>
 
-        <a href="agendamento.php">+ Novo Atendimento</a>
+        <a href="agendamento.php"> + Novo Atendimento</a>
         <br><br>
 
         <?php if (empty($consultas)): 
@@ -35,14 +35,19 @@ $consultas = listarConsultas($conexao);
                     <p><strong>Data:</strong> <?php echo $c['dia']; ?> às <?php echo $c['hora']; ?></p>
                     <p><strong>Status:</strong> <?php echo $c['status']; ?></p>
 
-                    <!-- Links das Ações -->
-                    <a href="acoes_agenda.php?acao=realizada&id=<?php echo $c['id']; ?>">Marcar Realizada</a> | 
 
-                    <a href="acoes_agenda.php?acao=cancelar&id=<?php echo $c['id']; ?>">Cancelar Consulta</a> | 
+                    <nav>
+                    <a href="status.php?acao=realizada&id=<?php echo $c['id']; ?>">Consulta Realizada</a> | 
 
-                    <a href="editar_consulta.php?id=<?php echo $c['id']; ?>">Remarcar</a> | 
+                    <a href="status.php?acao=cancelar&id=<?php echo $c['id']; ?>">Cancelar Consulta</a> | 
 
-                    <a href="acoes_agenda.php?acao=deletar&id=<?php echo $c['id']; ?>" onclick="return confirm('Tem certeza que deseja apagar?');">Apagar</a>
+                    <a href="remarcar.php?id=<?php echo $c['id']; ?>">Remarcar</a> | 
+
+                    <a href="status.php?acao=deletar&id=<?php echo $c['id']; ?>" onclick="return confirm('Tem certeza que deseja apagar?');">Apagar</a>
+
+                    </nav>
+
+
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>

@@ -268,22 +268,14 @@ function extrato($conexao)
 }
 
 //            Cadastrar USER
-function cadastrar_user($conexao, $email, $senha)
-{
-    require_once '../database/connect.php';
-
+function cadastrar_user($conexao, $email, $senha) {
+    // Exemplo do seu INSERT:
     $sql = "INSERT INTO usuarios (email, senha) VALUES (:email, :senha)";
-
-    try {
-        $stmt = $conexao->prepare($sql);
-        $stmt->bindParam(":email", $email);
-        $stmt->bindParam(":senha", $senha);
-
-        $stmt->execute();
-        echo "Usuário cadastrado com sucesso!!";
-    } catch (PDOException $e) {
-        echo "Erro: " . $e->getMessage();
-    }
+    $stmt = $conexao->prepare($sql);
+    $stmt->execute([':email' => $email, ':senha' => $senha]);
+    
+    // Retorna o ID do usuário cadastrado
+    return $conexao->lastInsertId(); 
 }
 
 //                   VE SE O USER EXISTE 
@@ -396,7 +388,26 @@ function listarConsultas($conexao)
     }
 }
 
+//                  GRAFICO
+function obterResumoFinanceiro($conexao)
+{
+    try {
+        // Soma a coluna 'valor_entrada' da tabela 'entrada'
+        $sqlEntradas = "SELECT COALESCE(SUM(valor_entrada), 0) AS total FROM entrada";
+        $stmtEntradas = $conexao->query($sqlEntradas);
+        $totalEntradas = (float) $stmtEntradas->fetchColumn();
 
+        // Soma a coluna 'valor_saida' da tabela 'saida'
+        $sqlSaidas = "SELECT COALESCE(SUM(valor_saida), 0) AS total FROM saida";
+        $stmtSaidas = $conexao->query($sqlSaidas);
+        $totalSaidas = (float) $stmtSaidas->fetchColumn();
 
-
+        return [
+            'entradas' => $totalEntradas,
+            'saidas'   => $totalSaidas
+        ];
+    } catch (PDOException $e) {
+        return ['entradas' => 0, 'saidas' => 0];
+    }
+}
 ?>

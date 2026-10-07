@@ -22,6 +22,7 @@ if (isset($_SESSION['id'])) {
 
     <main>
         <h3>Faça login para continuar</h3>
+        
         <form action="" method="post">
             <label for="email">E-mail: </label>
             <input type="text" name="email" id="email"><br>
@@ -43,7 +44,7 @@ if (isset($_SESSION['id'])) {
 
                 session_start();
                 $_SESSION['id'] = $usuario['id'];
-                header("Location: ../painel.php");
+                header("Location: /../painel.php");
                 exit();
             } else {
                 echo "Usúario ou senha inválidos.";
