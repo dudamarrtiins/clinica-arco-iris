@@ -41,3 +41,5 @@
 ### Aula 05:
     - Criação do README - com as instruções de utilização - e testes finais no projeto
 fazer em casa??
+
+- deu um milhao de erros, cancela o plano!!!!

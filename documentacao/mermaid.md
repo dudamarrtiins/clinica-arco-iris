@@ -28,3 +28,6 @@ CONSULTA{
 
 
 ```
+
+Falta:
+mais tres tabelas, dicionario, product backlog

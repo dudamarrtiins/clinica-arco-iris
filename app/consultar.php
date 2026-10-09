@@ -1,4 +1,9 @@
 <?php 
+session_start();
+if (!isset($_SESSION['id'])) {
+    header("Location: ../index.php");
+    exit();
+}
 require_once __DIR__ . '/../includes/functions.php';
 ?>
 <!DOCTYPE html>

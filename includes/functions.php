@@ -2,10 +2,15 @@
 require_once __DIR__ . '/../database/connect.php'; 
 // puxa a conexão com o banco
 
-//            CREATE - CADASTRARPACIENTE/ ADICIONAR
+
+//            CREATE - CADASTRAR PACIENTE/ ADICIONAR
 function cadastrar($conexao, $nome, $cpf, $nasc, $idade, $convenio, $sexo, $telefone)
 {
     require_once __DIR__ . '/../database/connect.php'; // mostra o caminho 
+
+    // Pega o ID do usuário conectado na sessão atual
+    
+    $id_usuario = $_SESSION['id'];
 
     $sql = "INSERT INTO paciente (nome, cpf, nasc, idade, convenio, sexo) VALUES (:nome, :cpf, :nasc, :idade, :convenio, :sexo)"; // sql coloque tais coisas nas seguintes colunas com as seguintes informações que estão sendo puxadas do forms 
 
@@ -40,7 +45,10 @@ function cadastrar($conexao, $nome, $cpf, $nasc, $idade, $convenio, $sexo, $tele
 
 function prontuario($conexao)
 {
-    $sqlPacientes = "SELECT * FROM paciente";
+    // Pega o ID do usuário conectado na sessão atual
+    $id_usuario = $_SESSION['id'];
+
+    $sqlPacientes = "SELECT * FROM paciente WHERE id_usuario = :id_usuario";
 
     try {
         $stmt = $conexao->prepare($sqlPacientes);
@@ -86,8 +94,11 @@ function prontuario($conexao)
 
 function apagar($conexao, $nome)
 {
+    // Pega o ID do usuário conectado na sessão atual
+    $id_usuario = $_SESSION['id'];
+
     try {
-        // 1. Busca o ID do paciente pelo nome antes de apagar
+        //  busca o ID do paciente pelo nome antes de apagar
         $sqlBusca = "SELECT id FROM paciente WHERE nome = :nome";
         $stmtBusca = $conexao->prepare($sqlBusca);
         $stmtBusca->bindParam(":nome", $nome);
@@ -98,13 +109,13 @@ function apagar($conexao, $nome)
         if ($paciente) {
             $idPaciente = $paciente['id'];
 
-            // 2. PRIMEIRO apaga os telefones do paciente
+            //  apaga os telefones do paciente
             $sqlTelefone = "DELETE FROM telefone WHERE id_paciente = :id_paciente";
             $stmtTelefone = $conexao->prepare($sqlTelefone);
             $stmtTelefone->bindParam(":id_paciente", $idPaciente);
             $stmtTelefone->execute();
 
-            // 3. DEPOIS apaga o paciente
+            //  apaga o paciente
             $sqlPaciente = "DELETE FROM paciente WHERE id = :id";
             $stmtPaciente = $conexao->prepare($sqlPaciente);
             $stmtPaciente->bindParam(":id", $idPaciente);
@@ -126,6 +137,8 @@ function atualizar($conexao, $id, $nome, $cpf, $nasc, $idade, $convenio, $sexo, 
 {
     require_once __DIR__ . '/../database/connect.php'; // mostra o caminho 
 
+    // Pega o ID do usuário conectado na sessão atual
+    $id_usuario = $_SESSION['id'];
    
     $sql = "UPDATE paciente SET nome = :nome , cpf = :cpf , nasc = :nasc , idade = :idade , convenio = :convenio , sexo = :sexo WHERE id = :id";
     // sql coloque tais coisas nas seguintes colunas com as seguintes informações que estão sendo puxadas do forms 
@@ -159,6 +172,8 @@ function atualizar($conexao, $id, $nome, $cpf, $nasc, $idade, $convenio, $sexo, 
 //                     SELECT W - CONSULTAR - VER UM SO
 function consultar($conexao, $nome)
 {
+    // Pega o ID do usuário conectado na sessão atual
+    $id_usuario = $_SESSION['id'];
 
     $sql = "SELECT id, nome, cpf, nasc, idade, convenio, sexo FROM paciente WHERE nome = :nome";
 
@@ -203,6 +218,9 @@ function entrada($conexao, $valor_entrada, $dia)
 {
     require_once __DIR__ . '/../database/connect.php'; // mostra o caminho 
 
+    // Pega o ID do usuário conectado na sessão atual
+    $id_usuario = $_SESSION['id'];
+
     $sql = "INSERT INTO entrada (valor_entrada, dia) VALUES (:entrada, :dia)";  
 
     try { // ta atribuindo os valores para as colunas
@@ -221,6 +239,9 @@ function entrada($conexao, $valor_entrada, $dia)
 function saida($conexao, $valor_saida, $dia)
 {
     require_once __DIR__ . '/../database/connect.php'; // mostra o caminho 
+
+    // Pega o ID do usuário conectado na sessão atual
+    $id_usuario = $_SESSION['id'];
 
     $sql = "INSERT INTO saida (valor_saida, dia) VALUES (:saida, :dia)";  
 
@@ -242,7 +263,9 @@ function extrato($conexao)
 {
     require_once __DIR__ . '/../database/connect.php';
 
-   
+    // Pega o ID do usuário conectado na sessão atual
+    $id_usuario = $_SESSION['id'];
+
     $stmtE = $conexao->prepare("SELECT * FROM entrada");
     $stmtE->execute();
     $entradas = $stmtE->fetchAll(PDO::FETCH_ASSOC);
@@ -301,6 +324,9 @@ function consulta_user($conexao, $email)
 // 1. Marca um novo atendimento (status inicia automaticamente como 'agendada')
 function agendarConsulta($conexao, $id_paciente, $dia, $hora)
 {
+    // Pega o ID do usuário conectado na sessão atual
+    $id_usuario = $_SESSION['id'];
+
     $sql = "INSERT INTO consultas (id_paciente, dia, hora, status) 
             VALUES (:id_paciente, :dia, :hora, 'agendada')";
     
@@ -319,6 +345,9 @@ function agendarConsulta($conexao, $id_paciente, $dia, $hora)
 // 2. Atualiza o status da consulta ('agendada', 'realizada', 'cancelada')
 function atualizarStatusConsulta($conexao, $id_consulta, $novo_status)
 {
+    // Pega o ID do usuário conectado na sessão atual
+    $id_usuario = $_SESSION['id'];
+
     $sql = "UPDATE consultas SET status = :status WHERE id = :id";
     
     try {
@@ -341,6 +370,9 @@ function cancelarConsulta($conexao, $id_consulta)
 // 4. Apaga definitivamente do banco de dados (Delete)
 function deletarConsulta($conexao, $id_consulta)
 {
+    // Pega o ID do usuário conectado na sessão atual
+    $id_usuario = $_SESSION['id'];
+
     $sql = "DELETE FROM consultas WHERE id = :id";
     
     try {
@@ -356,6 +388,9 @@ function deletarConsulta($conexao, $id_consulta)
 // 5. Remarca a data e o horário de uma consulta
 function remarcarConsulta($conexao, $id_consulta, $novo_dia, $nova_hora)
 {
+    // Pega o ID do usuário conectado na sessão atual
+    $id_usuario = $_SESSION['id'];
+
     $sql = "UPDATE consultas SET dia = :dia, hora = :hora WHERE id = :id";
     
     try {
@@ -373,6 +408,9 @@ function remarcarConsulta($conexao, $id_consulta, $novo_dia, $nova_hora)
 // 6. Lista todas as consultas marcadas
 function listarConsultas($conexao)
 {
+    // Pega o ID do usuário conectado na sessão atual
+    $id_usuario = $_SESSION['id'];
+
     $sql = "SELECT c.*, p.nome AS paciente_nome 
             FROM consultas c
             LEFT JOIN paciente p ON c.id_paciente = p.id
@@ -391,6 +429,9 @@ function listarConsultas($conexao)
 //                  GRAFICO
 function obterResumoFinanceiro($conexao)
 {
+    // Pega o ID do usuário conectado na sessão atual
+    $id_usuario = $_SESSION['id'];
+
     try {
         // Soma a coluna 'valor_entrada' da tabela 'entrada'
         $sqlEntradas = "SELECT COALESCE(SUM(valor_entrada), 0) AS total FROM entrada";
@@ -410,4 +451,5 @@ function obterResumoFinanceiro($conexao)
         return ['entradas' => 0, 'saidas' => 0];
     }
 }
+
 ?>
