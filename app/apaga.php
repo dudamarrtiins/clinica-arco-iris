@@ -7,22 +7,130 @@ require_once __DIR__ . '/../includes/functions.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apaga Paciente</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        body {
+            background-color: #fff3ed; /* Fundo bege padrão */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* TÍTULO PRINCIPAL */
+        h1 {
+            font-size: 24px;
+            color: #000000;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 25px;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 20px 40px 20px;
+            width: 100%;
+        }
+
+        /* FORMULÁRIO DE REMOÇÃO */
+        form {
+            width: 100%;
+            max-width: 850px;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 35px;
+        }
+
+        form label {
+            font-size: 18px;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        /* INPUT DE NOME - PÍLULA AZUL LARGA */
+        input[type="text"] {
+            width: 100%;
+            height: 48px;
+            background-color: #85b4f2; /* Azul do padrão */
+            border: none;
+            border-radius: 18px;
+            padding: 0 20px;
+            font-size: 16px;
+            color: #000000;
+            outline: none;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            margin-bottom: 35px;
+        }
+
+        input[type="text"]::placeholder {
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* CONTAINER DOS BOTÕES INFERIORES */
+        .botoes-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        /* BOTÕES APAGAR E VOLTAR COMO PÍLULAS AZUIS */
+        input[type="submit"],
+        .btn-voltar {
+            background-color: #85b4f2;
+            color: #ffffff;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            padding: 12px 40px;
+            border-radius: 15px;
+            transition: opacity 0.2s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        input[type="submit"]:hover,
+        .btn-voltar:hover {
+            opacity: 0.9;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
     <?php include __DIR__ . '/../includes/header.php';  // inclui o header
-        include __DIR__ .'/../includes/headerProntuario.php';
     ?> 
 
-    <h1>Apagar Paciente</h1>
+    <h1>Apagar paciente</h1>
+
     <main>
     <form action="" method="post">
         <label for="nome">Nome: </label>
-        <input type="text" name="nome" id="nome" placeholder="Insira o nome completo" require><br>
-        <input type="submit" value="Apagar">
+        <input type="text" name="nome" id="nome" placeholder="Insira o nome completo" required>
+        
+        <div class="botoes-container">
+            <input type="submit" value="Apagar">
+            <a href="prontuario.php" class="btn-voltar">Voltar</a>
+        </div>
     </form> <!-- Forms simples-->
+
     <?php 
     if($_SERVER['REQUEST_METHOD']=="POST"){
-    apagar($conexao, $_POST['nome']);
+        apagar($conexao, $_POST['nome']);
     }
     ?>
     </main>

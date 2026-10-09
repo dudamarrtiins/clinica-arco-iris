@@ -7,16 +7,46 @@ if (!isset($_SESSION['id'])) {
 
 require_once __DIR__ . '/includes/functions.php';
 
-// 1. DADOS DO CALENDÁRIO
-$mes = date('m');
-$ano = date('Y');
-$diasNoMes = date('t');
-$primeiroDiaSemana = date('w', strtotime("$ano-$mes-01"));
+// 1. DADOS DO CALENDÁRIO (DINÂMICO)
+// Pega o mês e ano via GET, ou usa o mês e ano atuais como padrão
+$mes = isset($_GET['mes']) ? (int)$_GET['mes'] : (int)date('m');
+$ano = isset($_GET['ano']) ? (int)$_GET['ano'] : (int)date('Y');
+
+// Trata viradas de ano ao clicar nos botões (mês 0 vira dezembro do ano anterior, mês 13 vira janeiro do próximo ano)
+if ($mes < 1) {
+    $mes = 12;
+    $ano--;
+} elseif ($mes > 12) {
+    $mes = 1;
+    $ano++;
+}
+
+// Formatação para exibição com 2 dígitos no cálculo do dia/mês
+$mesFormatado = str_pad($mes, 2, '0', STR_PAD_LEFT);
+
+// Cálculos de navegação (mês anterior e próximo mês)
+$mesAnt = $mes - 1;
+$anoAnt = $ano;
+if ($mesAnt < 1) { $mesAnt = 12; $anoAnt--; }
+
+$mesProx = $mes + 1;
+$anoProx = $ano;
+if ($mesProx > 12) { $mesProx = 1; $anoProx++; }
+
+// Nomes dos meses em português para o cabeçalho
+$nomesMeses = [
+    1 => 'Janeiro', 2 => 'Fevereiro', 3 => 'Março', 4 => 'Abril',
+    5 => 'Maio', 6 => 'Junho', 7 => 'Julho', 8 => 'Agosto',
+    9 => 'Setembro', 10 => 'Outubro', 11 => 'Novembro', 12 => 'Dezembro'
+];
+
+$diasNoMes = cal_days_in_month(CAL_GREGORIAN, $mes, $ano);
+$primeiroDiaSemana = date('w', strtotime("$ano-$mesFormatado-01"));
 $todasConsultas = listarConsultas($conexao);
 
 $agenda = [];
 foreach ($todasConsultas as $c) {
-    if (date('m', strtotime($c['dia'])) == $mes && date('Y', strtotime($c['dia'])) == $ano) {
+    if (date('m', strtotime($c['dia'])) == $mesFormatado && date('Y', strtotime($c['dia'])) == $ano) {
         $dia = (int)date('d', strtotime($c['dia']));
         $agenda[$dia][] = $c;
     }
@@ -37,42 +67,188 @@ $pctSaidas   = min(100, round(($totalSaidas / $maxValor) * 100));
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Geral</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        .dashboard-container { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px; }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        body {
+            background-color: #fff3ed; /* Fundo bege padrão */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px 40px 20px;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* TÍTULO PRINCIPAL */
+        h2 {
+            font-size: 26px;
+            color: #000000;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        /* CONTAINER DOS CARDS CENTRALIZADO */
+        .dashboard-container {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+        }
+
         /* CARD DO GRÁFICO FINANCEIRO */
         .card-grafico {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 25px;
             flex: 1;
-            min-width: 300px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            min-width: 320px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-        .barra-grupo { margin-bottom: 15px; }
-        .barra-label { font-size: 14px; font-weight: bold; margin-bottom: 5px; display: flex; justify-content: space-between; }
-        .barra-fundo { background: #e0e0e0; height: 25px; border-radius: 12px; overflow: hidden; }
-        .barra-preenchimento { height: 100%; border-radius: 12px; transition: width 0.5s ease; }
-        
+
+        .card-grafico h3 {
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .barra-grupo { 
+            margin-bottom: 18px; 
+        }
+
+        .barra-label { 
+            font-size: 14px; 
+            font-weight: bold; 
+            margin-bottom: 6px; 
+            display: flex; 
+            justify-content: space-between; 
+        }
+
+        .barra-fundo { 
+            background: #e0e0e0; 
+            height: 22px; 
+            border-radius: 12px; 
+            overflow: hidden; 
+        }
+
+        .barra-preenchimento { 
+            height: 100%; 
+            border-radius: 12px; 
+            transition: width 0.5s ease; 
+        }
+
         .cor-entrada { background-color: #2e7d32; } /* Verde */
         .cor-saida { background-color: #c62828; }   /* Vermelho */
-        
-        .resumo-cards { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; }
+
+        .resumo-cards { 
+            display: flex; 
+            justify-content: space-between; 
+            margin-top: 20px; 
+            padding-top: 15px; 
+            border-top: 1px solid #eee; 
+        }
+
         .resumo-box { text-align: center; }
         .resumo-box small { color: #666; font-size: 12px; }
-        .resumo-box strong { display: block; font-size: 16px; margin-top: 3px; }
+        .resumo-box strong { display: block; font-size: 15px; margin-top: 4px; }
 
         /* CARD DO CALENDÁRIO */
-        .card-calendario { flex: 2; min-width: 500px; }
-        .calendario { width: 100%; border-collapse: collapse; }
-        .calendario th { background: #3f51b5; color: white; padding: 8px; width: 14%; }
-        .calendario td { border: 1px solid #ccc; height: 75px; vertical-align: top; padding: 4px; background: #fff; }
-        .vazio { background: #f9f9f9; }
+        .card-calendario { 
+            flex: 2; 
+            min-width: 500px;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* NAVEGAÇÃO DO MÊS NO CALENDÁRIO */
+        .calendario-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .calendario-header h3 {
+            font-size: 20px;
+            color: #000000;
+            font-weight: bold;
+        }
+
+        .btn-nav-mes {
+            background-color: #85b4f2;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 6px 16px;
+            border-radius: 14px;
+            font-weight: bold;
+            font-size: 14px;
+            transition: opacity 0.2s;
+        }
+
+        .btn-nav-mes:hover {
+            opacity: 0.85;
+        }
+
+        .calendario { 
+            width: 100%; 
+            border-collapse: collapse; 
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .calendario th { 
+            background: #85b4f2; 
+            color: white; 
+            padding: 10px; 
+            width: 14%; 
+            font-size: 14px;
+        }
+
+        .calendario td { 
+            border: 1px solid #eee; 
+            height: 75px; 
+            vertical-align: top; 
+            padding: 6px; 
+            background: #fff; 
+        }
+
+        .vazio { background: #fafafa; }
         .num-dia { font-weight: bold; font-size: 12px; color: #333; }
-        .item-agenda { display: block; font-size: 10px; padding: 2px 4px; margin-top: 2px; color: white; text-decoration: none; border-radius: 3px; }
+        
+        .item-agenda { 
+            display: block; 
+            font-size: 10px; 
+            padding: 3px 5px; 
+            margin-top: 3px; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 4px; 
+            font-weight: bold;
+        }
+
         .status-agendada { background: #0288d1; }
         .status-realizada { background: #388e3c; }
         .status-cancelada { background: #d32f2f; }
@@ -81,7 +257,7 @@ $pctSaidas   = min(100, round(($totalSaidas / $maxValor) * 100));
 <body>
     <?php include __DIR__ . '/includes/header.php'; ?>
 
-    <main style="padding: 20px;">
+    <main>
         <h2>Dashboard</h2>
 
         <div class="dashboard-container">
@@ -131,9 +307,14 @@ $pctSaidas   = min(100, round(($totalSaidas / $maxValor) * 100));
                 </div>
             </div>
 
-            <!-- CALENDÁRIO DA AGENDA -->
+            <!-- CALENDÁRIO DA AGENDA COM NAVEGAÇÃO -->
             <div class="card-calendario">
-                <h3>Agenda</h3>
+                <div class="calendario-header">
+                    <a href="?mes=<?php echo $mesAnt; ?>&ano=<?php echo $anoAnt; ?>" class="btn-nav-mes">&laquo; Anterior</a>
+                    <h3>Agenda - <?php echo $nomesMeses[$mes] . ' / ' . $ano; ?></h3>
+                    <a href="?mes=<?php echo $mesProx; ?>&ano=<?php echo $anoProx; ?>" class="btn-nav-mes">Próximo &raquo;</a>
+                </div>
+
                 <table class="calendario">
                     <tr>
                         <th>Dom</th><th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sáb</th>

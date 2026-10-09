@@ -66,7 +66,7 @@
 
         <a href="/app/agenda.php">Agenda  </a>
 
-        <a href="/app/prontuario.php">Prontuario </a>
+        <a href="/app/prontuario.php">Prontuário </a>
 
         <a href="/app/consultar.php">Consultar </a>
 
