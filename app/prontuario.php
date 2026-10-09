@@ -1,10 +1,10 @@
 <?php
+require_once __DIR__ . '/../includes/functions.php';
 session_start();
 if (!isset($_SESSION['id'])) {
     header("Location: ../index.php");
     exit();
 }
-require_once __DIR__ . '/../includes/functions.php';
 ?>
 
 <!-- VISUALIZAR SEM O W-->
@@ -113,7 +113,7 @@ require_once __DIR__ . '/../includes/functions.php';
 
         <!-- CARD AZUL QUE ENVOLVE OS DADOS DO PACIENTE -->
         <div class="card-prontuario-container">
-            <?php prontuario($conexao); ?>
+            <?php prontuario($conexao, $_SESSION['id']); ?>
         </div>
 
         <!-- BARRA AZUL SEPARADA NA PARTE INFERIOR -->

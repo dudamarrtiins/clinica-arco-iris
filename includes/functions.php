@@ -12,7 +12,7 @@ function cadastrar($conexao, $nome, $cpf, $nasc, $idade, $convenio, $sexo, $tele
     
     $id_usuario = $_SESSION['id'];
 
-    $sql = "INSERT INTO paciente (nome, cpf, nasc, idade, convenio, sexo) VALUES (:nome, :cpf, :nasc, :idade, :convenio, :sexo)"; // sql coloque tais coisas nas seguintes colunas com as seguintes informações que estão sendo puxadas do forms 
+    $sql = "INSERT INTO paciente (nome, cpf, nasc, idade, convenio, sexo, id_usuario) VALUES (:nome, :cpf, :nasc, :idade, :convenio, :sexo, :id_usuario)"; // sql coloque tais coisas nas seguintes colunas com as seguintes informações que estão sendo puxadas do forms 
 
     try { // ta atribuindo os valores para as colunas
         $stmt = $conexao->prepare($sql);
@@ -22,6 +22,9 @@ function cadastrar($conexao, $nome, $cpf, $nasc, $idade, $convenio, $sexo, $tele
         $stmt->bindParam(":idade", $idade);
         $stmt->bindParam(":convenio", $convenio);
         $stmt->bindParam(":sexo", $sexo);
+
+        $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
+
         $stmt->execute();
 
         $idPaciente = $conexao->lastInsertId(); // puxa o id
@@ -43,12 +46,11 @@ function cadastrar($conexao, $nome, $cpf, $nasc, $idade, $convenio, $sexo, $tele
 
 //                  SELECT - PRONTUARIO - VER TODOS
 
-function prontuario($conexao)
+function prontuario($conexao, $id_usuario)
 {
     // Pega o ID do usuário conectado na sessão atual
-    $id_usuario = $_SESSION['id'];
 
-    $sqlPacientes = "SELECT * FROM paciente WHERE id_usuario = :id_usuario";
+    $sqlPacientes = "SELECT * FROM paciente WHERE id_usuario = $id_usuario";
 
     try {
         $stmt = $conexao->prepare($sqlPacientes);
