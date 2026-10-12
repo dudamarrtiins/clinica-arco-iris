@@ -42,7 +42,7 @@ function cadastrar($conexao, $nome, $cpf, $nasc, $idade, $convenio, $sexo, $tele
     } catch (PDOException $e) {
         echo "Erro: " . $e->getMessage();
     }
-}
+} // TERMINADAAAA, NÃO MEXER EM NADA
 
 //                  SELECT - PRONTUARIO - VER TODOS
 
@@ -61,11 +61,7 @@ function prontuario($conexao, $id_usuario)
         foreach ($pacientes as $paciente) {
             echo "ID: {$paciente['id']}<br>";
             echo "nome: {$paciente['nome']}<br>";
-            echo "cpf: {$paciente['cpf']}<br>";
-            echo "nasc: {$paciente['nasc']}<br>";
-            echo "idade: {$paciente['idade']}<br>";
-            echo "convenio: {$paciente['convenio']}<br>";
-            echo "sexo: {$paciente['sexo']}<br>";
+    
 
             // Busca O TELEFONE DESTE PACIENTE específico
             $sqlTel = "SELECT telefone FROM telefone WHERE id_paciente = :id_paciente";
@@ -78,32 +74,28 @@ function prontuario($conexao, $id_usuario)
 
             $sqltel = $stmtTel->fetch(PDO::FETCH_ASSOC);
 
-            if ($sqltel) {
-                echo "telefone: {$sqltel['telefone']}<br>";
-            } else {
-                echo "telefone: Não cadastrado<br>";
-            }
-
             echo "<hr>";
         }
 
     } catch (PDOException $e) {
         echo "Erro: " . $e->getMessage();
     }
-}
+} // TERMINADA, NÃO MEXER EM NADA, comecei mexer, tem que terminar
 
 //                 DELETE - delete/Apagar
 
+// DELETE - delete/Apagar
 function apagar($conexao, $nome)
 {
     // Pega o ID do usuário conectado na sessão atual
     $id_usuario = $_SESSION['id'];
 
     try {
-        //  busca o ID do paciente pelo nome antes de apagar
-        $sqlBusca = "SELECT id FROM paciente WHERE nome = :nome";
+        // SEGURANÇA: busca o ID do paciente pelo nome E pelo dono da conta (id_usuario)
+        $sqlBusca = "SELECT id FROM paciente WHERE nome = :nome AND id_usuario = :id_usuario";
         $stmtBusca = $conexao->prepare($sqlBusca);
         $stmtBusca->bindParam(":nome", $nome);
+        $stmtBusca->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
         $stmtBusca->execute();
         
         $paciente = $stmtBusca->fetch(PDO::FETCH_ASSOC);
@@ -111,41 +103,44 @@ function apagar($conexao, $nome)
         if ($paciente) {
             $idPaciente = $paciente['id'];
 
-            //  apaga os telefones do paciente
+            // Apaga os telefones do paciente
             $sqlTelefone = "DELETE FROM telefone WHERE id_paciente = :id_paciente";
             $stmtTelefone = $conexao->prepare($sqlTelefone);
             $stmtTelefone->bindParam(":id_paciente", $idPaciente);
             $stmtTelefone->execute();
 
-            //  apaga o paciente
-            $sqlPaciente = "DELETE FROM paciente WHERE id = :id";
+            // Apaga o paciente garantindo o id do usuário
+            $sqlPaciente = "DELETE FROM paciente WHERE id = :id AND id_usuario = :id_usuario";
             $stmtPaciente = $conexao->prepare($sqlPaciente);
             $stmtPaciente->bindParam(":id", $idPaciente);
+            $stmtPaciente->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
             $stmtPaciente->execute();
 
-            echo "Usuário $nome removido com sucesso!";
+            echo "Paciente $nome removido com sucesso!";
         } else {
-            echo "Paciente não encontrado!";
+            echo "Paciente não encontrado";
         }
 
     } catch (PDOException $e) {
         echo "Erro: " . $e->getMessage();
     }
-}
+} // TERMINADA, NÃO MEXER
 
-//            ATUALIZAR 
+// ATUALIZAR 
 
 function atualizar($conexao, $id, $nome, $cpf, $nasc, $idade, $convenio, $sexo, $telefone)
 {
-    require_once __DIR__ . '/../database/connect.php'; // mostra o caminho 
+    require_once __DIR__ . '/../database/connect.php'; 
 
     // Pega o ID do usuário conectado na sessão atual
     $id_usuario = $_SESSION['id'];
    
-    $sql = "UPDATE paciente SET nome = :nome , cpf = :cpf , nasc = :nasc , idade = :idade , convenio = :convenio , sexo = :sexo WHERE id = :id";
-    // sql coloque tais coisas nas seguintes colunas com as seguintes informações que estão sendo puxadas do forms 
+    // SEGURANÇA: Atualiza os dados APENAS se o paciente pertencer ao usuário logado
+    $sql = "UPDATE paciente 
+            SET nome = :nome, cpf = :cpf, nasc = :nasc, idade = :idade, convenio = :convenio, sexo = :sexo 
+            WHERE id = :id AND id_usuario = :id_usuario";
 
-    try { // ta atribuindo os valores para as colunas
+    try { 
         $stmt = $conexao->prepare($sql);
         $stmt->bindParam(":id", $id);
         $stmt->bindParam(":nome", $nome);
@@ -154,14 +149,15 @@ function atualizar($conexao, $id, $nome, $cpf, $nasc, $idade, $convenio, $sexo, 
         $stmt->bindParam(":idade", $idade);
         $stmt->bindParam(":convenio", $convenio);
         $stmt->bindParam(":sexo", $sexo);
-        
+        $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
 
         $stmt->execute();
-        // mesma coisa que o de cima, só que com a tab de tele:
-        $sqlTelefone = "UPDATE telefone SET telefone = :telefone WHERE id = :id_paciente";
+
+        // Atualiza o telefone onde id_paciente é igual ao $id recebido no parâmetro
+        $sqlTelefone = "UPDATE telefone SET telefone = :telefone WHERE id_paciente = :id_paciente";
 
         $stmtTelefone = $conexao->prepare($sqlTelefone);
-        $stmtTelefone->bindParam(":id_paciente", $idPaciente);
+        $stmtTelefone->bindParam(":id_paciente", $id); // usa $id diretamente
         $stmtTelefone->bindParam(":telefone", $telefone);
         $stmtTelefone->execute();
 
@@ -169,19 +165,23 @@ function atualizar($conexao, $id, $nome, $cpf, $nasc, $idade, $convenio, $sexo, 
     } catch (PDOException $e) {
         echo "Erro: " . $e->getMessage();
     }
-}
+} // TERMINADA, NÃO MEXER EM NADA
 
-//                     SELECT W - CONSULTAR - VER UM SO
+
+//                     SELECT - CONSULTAR - VER UM SÓ
 function consultar($conexao, $nome)
 {
     // Pega o ID do usuário conectado na sessão atual
     $id_usuario = $_SESSION['id'];
 
-    $sql = "SELECT id, nome, cpf, nasc, idade, convenio, sexo FROM paciente WHERE nome = :nome";
+    $sql = "SELECT * FROM paciente WHERE nome LIKE :nome AND id_usuario = :id_usuario";
 
     try {
         $stmt = $conexao->prepare($sql);
-        $stmt->bindParam(":nome", $nome);
+
+        $nomeBusca = "%" . $nome . "%";
+        $stmt->bindParam(":nome", $nomeBusca);
+        $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
         $stmt->execute();
 
         $paciente = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -195,26 +195,28 @@ function consultar($conexao, $nome)
       
         $sqlTel = "SELECT telefone FROM telefone WHERE id_paciente = :id_paciente";
 
-            $stmtTel = $conexao->prepare($sqlTel);
+        $stmtTel = $conexao->prepare($sqlTel);
 
-            $stmtTel->bindParam(":id_paciente", $paciente['id']);
+        $stmtTel->bindParam(":id_paciente", $paciente['id']);
 
-            $stmtTel->execute();
+        $stmtTel->execute();
 
-            $sqltel = $stmtTel->fetch(PDO::FETCH_ASSOC);
+        $sqltel = $stmtTel->fetch(PDO::FETCH_ASSOC);
 
-            if ($sqltel) {
-                echo "telefone: {$sqltel['telefone']}<br>";
-            } else {
-                echo "telefone: Não cadastrado<br>";
-            }
+        if ($sqltel) {
+            echo "telefone: {$sqltel['telefone']}<br>";
+        } else {
+            echo "telefone: Não cadastrado<br>";
+        }
 
     } catch (PDOException $e) {
         echo "Erro: " . $e->getMessage();
     }
-}
+} // TERMINADA, NÃO MEXER
 
 //                        ENTRADA DE DINHEIRO - GESTAO
+
+// ENTRADA DE DINHEIRO - GESTAO
 
 function entrada($conexao, $valor_entrada, $dia)
 {
@@ -223,20 +225,23 @@ function entrada($conexao, $valor_entrada, $dia)
     // Pega o ID do usuário conectado na sessão atual
     $id_usuario = $_SESSION['id'];
 
-    $sql = "INSERT INTO entrada (valor_entrada, dia) VALUES (:entrada, :dia)";  
+    $sql = "INSERT INTO entrada (valor_entrada, dia, id_usuario) VALUES (:entrada, :dia, :id_usuario)";  
 
     try { // ta atribuindo os valores para as colunas
         $stmt = $conexao->prepare($sql);
         $stmt->bindParam(":entrada", $valor_entrada);
         $stmt->bindParam(":dia", $dia);
+        $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
         $stmt->execute();
-         echo "Registrado Ganho!";
+        echo "Registrado Ganho!";
     } catch (PDOException $e) {
         echo "Erro: " . $e->getMessage();
     }
-}
+} // terminada, não mexer
 
 //                       SAIDA DE DINHEIRO - GESTAO
+
+// SAIDA DE DINHEIRO - GESTAO
 
 function saida($conexao, $valor_saida, $dia)
 {
@@ -245,21 +250,24 @@ function saida($conexao, $valor_saida, $dia)
     // Pega o ID do usuário conectado na sessão atual
     $id_usuario = $_SESSION['id'];
 
-    $sql = "INSERT INTO saida (valor_saida, dia) VALUES (:saida, :dia)";  
+    $sql = "INSERT INTO saida (valor_saida, dia, id_usuario) VALUES (:saida, :dia, :id_usuario)";  
 
     try { // ta atribuindo os valores para as colunas
         $stmt = $conexao->prepare($sql);
         $stmt->bindParam(":saida", $valor_saida);
         $stmt->bindParam(":dia", $dia);
+        $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
         $stmt->execute();
         echo "Registrado Gasto!";
     } catch (PDOException $e) {
         echo "Erro: " . $e->getMessage();
     }
-}
+} // terminada, não mexer
 
 
 //                            EXTRATO
+
+// EXTRATO
 
 function extrato($conexao)
 {
@@ -268,7 +276,8 @@ function extrato($conexao)
     // Pega o ID do usuário conectado na sessão atual
     $id_usuario = $_SESSION['id'];
 
-    $stmtE = $conexao->prepare("SELECT * FROM entrada");
+    $stmtE = $conexao->prepare("SELECT * FROM entrada WHERE id_usuario = :id_usuario");
+    $stmtE->bindParam(":id_usuario", $id_usuario);
     $stmtE->execute();
     $entradas = $stmtE->fetchAll(PDO::FETCH_ASSOC);
 
@@ -280,7 +289,8 @@ function extrato($conexao)
     }
 
     
-    $stmtS = $conexao->prepare("SELECT * FROM saida");
+    $stmtS = $conexao->prepare("SELECT * FROM saida WHERE id_usuario = :id_usuario");
+    $stmtS->bindParam(":id_usuario", $id_usuario);
     $stmtS->execute();
     $saidas = $stmtS->fetchAll(PDO::FETCH_ASSOC);
 
@@ -290,7 +300,7 @@ function extrato($conexao)
         echo "Valor Gasto: " . $s['valor_saida'] . "<br>";
         echo "Data: " . $s['dia'] . "<br><hr>";
     }
-}
+} // terminada
 
 //            Cadastrar USER
 function cadastrar_user($conexao, $email, $senha) {
@@ -329,20 +339,21 @@ function agendarConsulta($conexao, $id_paciente, $dia, $hora)
     // Pega o ID do usuário conectado na sessão atual
     $id_usuario = $_SESSION['id'];
 
-    $sql = "INSERT INTO consultas (id_paciente, dia, hora, status) 
-            VALUES (:id_paciente, :dia, :hora, 'agendada')";
+    $sql = "INSERT INTO consultas (id_paciente, dia, hora, status, id_usuario) 
+            VALUES (:id_paciente, :dia, :hora, 'agendada', :id_usuario)";
     
     try {
         $stmt = $conexao->prepare($sql);
         $stmt->bindParam(':id_paciente', $id_paciente);
         $stmt->bindParam(':dia', $dia);
         $stmt->bindParam(':hora', $hora);
+        $stmt->bindParam(':id_usuario', $id_usuario);
         return $stmt->execute();
     } catch (PDOException $e) {
         echo "Erro ao agendar: " . $e->getMessage();
         return false;
     }
-}
+} // terminado
 
 // 2. Atualiza o status da consulta ('agendada', 'realizada', 'cancelada')
 function atualizarStatusConsulta($conexao, $id_consulta, $novo_status)
@@ -350,18 +361,19 @@ function atualizarStatusConsulta($conexao, $id_consulta, $novo_status)
     // Pega o ID do usuário conectado na sessão atual
     $id_usuario = $_SESSION['id'];
 
-    $sql = "UPDATE consultas SET status = :status WHERE id = :id";
+    $sql = "UPDATE consultas SET status = :status WHERE id = :id AND id_usuario = :id_usuario";
     
     try {
         $stmt = $conexao->prepare($sql);
         $stmt->bindParam(':status', $novo_status);
         $stmt->bindParam(':id', $id_consulta);
+        $stmt->bindParam(':id_usuario', $id_usuario);
         return $stmt->execute();
     } catch (PDOException $e) {
         echo "Erro ao atualizar status: " . $e->getMessage();
         return false;
     }
-}
+} // terminado
 
 // 3. Atalho para cancelar a consulta
 function cancelarConsulta($conexao, $id_consulta)
@@ -375,17 +387,18 @@ function deletarConsulta($conexao, $id_consulta)
     // Pega o ID do usuário conectado na sessão atual
     $id_usuario = $_SESSION['id'];
 
-    $sql = "DELETE FROM consultas WHERE id = :id";
+    $sql = "DELETE FROM consultas WHERE id = :id AND id_usuario = :id_usuario";
     
     try {
         $stmt = $conexao->prepare($sql);
         $stmt->bindParam(':id', $id_consulta);
+        $stmt->bindParam(':id_usuario', $id_usuario);
         return $stmt->execute();
     } catch (PDOException $e) {
         echo "Erro ao deletar: " . $e->getMessage();
         return false;
     }
-}
+} // terminada
 
 // 5. Remarca a data e o horário de uma consulta
 function remarcarConsulta($conexao, $id_consulta, $novo_dia, $nova_hora)
@@ -393,19 +406,20 @@ function remarcarConsulta($conexao, $id_consulta, $novo_dia, $nova_hora)
     // Pega o ID do usuário conectado na sessão atual
     $id_usuario = $_SESSION['id'];
 
-    $sql = "UPDATE consultas SET dia = :dia, hora = :hora WHERE id = :id";
+    $sql = "UPDATE consultas SET dia = :dia, hora = :hora WHERE id = :id AND id_usuario = :id_usuario";
     
     try {
         $stmt = $conexao->prepare($sql);
         $stmt->bindParam(':dia', $novo_dia);
         $stmt->bindParam(':hora', $nova_hora);
         $stmt->bindParam(':id', $id_consulta);
+        $stmt->bindParam(':id_usuario', $id_usuario);
         return $stmt->execute();
     } catch (PDOException $e) {
         echo "Erro ao remarcar: " . $e->getMessage();
         return false;
     }
-}
+} // terminada
 
 // 6. Lista todas as consultas marcadas
 function listarConsultas($conexao)
@@ -413,22 +427,20 @@ function listarConsultas($conexao)
     // Pega o ID do usuário conectado na sessão atual
     $id_usuario = $_SESSION['id'];
 
-    $sql = "SELECT c.*, p.nome AS paciente_nome 
-            FROM consultas c
-            LEFT JOIN paciente p ON c.id_paciente = p.id
-            ORDER BY c.dia ASC, c.hora ASC";
+    $sql = "SELECT * FROM consultas WHERE id_usuario = :id_usuario ORDER BY dia ASC, hora ASC";
     
     try {
         $stmt = $conexao->prepare($sql);
+        $stmt->bindParam(':id_usuario', $id_usuario);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         echo "Erro ao buscar consultas: " . $e->getMessage();
         return [];
     }
-}
+} // terminada, acho que nao vai funcionar!
 
-//                  GRAFICO
+// GRAFICO
 function obterResumoFinanceiro($conexao)
 {
     // Pega o ID do usuário conectado na sessão atual
@@ -436,13 +448,17 @@ function obterResumoFinanceiro($conexao)
 
     try {
         // Soma a coluna 'valor_entrada' da tabela 'entrada'
-        $sqlEntradas = "SELECT COALESCE(SUM(valor_entrada), 0) AS total FROM entrada";
-        $stmtEntradas = $conexao->query($sqlEntradas);
+        $sqlEntradas = "SELECT COALESCE(SUM(valor_entrada), 0) AS total FROM entrada WHERE id_usuario = :id_usuario";
+        $stmtEntradas = $conexao->prepare($sqlEntradas);
+        $stmtEntradas->bindParam(':id_usuario', $id_usuario);
+        $stmtEntradas->execute();
         $totalEntradas = (float) $stmtEntradas->fetchColumn();
 
         // Soma a coluna 'valor_saida' da tabela 'saida'
-        $sqlSaidas = "SELECT COALESCE(SUM(valor_saida), 0) AS total FROM saida";
-        $stmtSaidas = $conexao->query($sqlSaidas);
+        $sqlSaidas = "SELECT COALESCE(SUM(valor_saida), 0) AS total FROM saida WHERE id_usuario = :id_usuario";
+        $stmtSaidas = $conexao->prepare($sqlSaidas);
+        $stmtSaidas->bindParam(':id_usuario', $id_usuario);
+        $stmtSaidas->execute();
         $totalSaidas = (float) $stmtSaidas->fetchColumn();
 
         return [
@@ -451,7 +467,7 @@ function obterResumoFinanceiro($conexao)
         ];
     } catch (PDOException $e) {
         return ['entradas' => 0, 'saidas' => 0];
-    }
+    } // terminada
 }
 
 ?>

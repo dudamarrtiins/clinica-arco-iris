@@ -127,38 +127,40 @@ $consultas = listarConsultas($conexao);
 <body>
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
-    <main>
-        <div class="agenda-header">
-            <h2>Agenda de Atendimentos</h2>
+<main>
+    <div class="agenda-header">
+        <h2>Agenda de Atendimentos</h2>
+    </div>
+
+    <a href="agendamento.php" class="btn-novo-atendimento"> + Novo Atendimento</a>
+
+    <?php foreach ($consultas as $c): ?>
+        <?php 
+            // Busca o paciente direto pelo ID da consulta
+            $stmtP = $conexao->prepare("SELECT nome FROM paciente WHERE id = :id");
+            $stmtP->bindParam(':id', $c['id_paciente']);
+            $stmtP->execute();
+            $paciente = $stmtP->fetch(PDO::FETCH_ASSOC);
+        ?>
+
+        <div class="bloco-consulta-item">
+            <!-- Card de informações do paciente -->
+            <div class="card-paciente-azul">
+                <p><strong>Paciente:</strong> <?php echo $paciente['nome']; ?></p>
+                <p><strong>Data:</strong> <?php echo $c['dia']; ?> às <?php echo $c['hora']; ?></p>
+                <p><strong>Status:</strong> <?php echo $c['status']; ?></p>
+            </div>
+
+            <!-- Barra de botões separada -->
+            <nav class="barra-acoes-azul">
+                <a href="status.php?acao=realizada&id=<?php echo $c['id']; ?>">Consulta Realizada</a>
+                <a href="status.php?acao=cancelar&id=<?php echo $c['id']; ?>">Cancelar Consulta</a>
+                <a href="remarcar.php?id=<?php echo $c['id']; ?>">Remarcar</a>
+                <a href="status.php?acao=deletar&id=<?php echo $c['id']; ?>" onclick="return confirm('Tem certeza que deseja apagar?');">Apagar</a>
+            </nav>
         </div>
-
-        <a href="agendamento.php" class="btn-novo-atendimento"> + Novo Atendimento</a>
-
-        <?php if (empty($consultas)): ?>
-            <p class="mensagem-vazia">Nenhuma consulta agendada.</p>
-        <?php else: ?>
-            <?php foreach ($consultas as $c): ?>
-                <div class="bloco-consulta-item">
-                    
-                    <!-- Card de informações do paciente -->
-                    <div class="card-paciente-azul">
-                        <p><strong>Paciente:</strong> <?php echo $c['paciente_nome'] ?? "ID Paciente: " . $c['id_paciente']; ?></p>
-                        <p><strong>Data:</strong> <?php echo $c['dia']; ?> às <?php echo $c['hora']; ?></p>
-                        <p><strong>Status:</strong> <?php echo $c['status']; ?></p>
-                    </div>
-
-                    <!-- Barra de botões separada -->
-                    <nav class="barra-acoes-azul">
-                        <a href="status.php?acao=realizada&id=<?php echo $c['id']; ?>">Consulta Realizada</a>
-                        <a href="status.php?acao=cancelar&id=<?php echo $c['id']; ?>">Cancelar Consulta</a>
-                        <a href="remarcar.php?id=<?php echo $c['id']; ?>">Remarcar</a>
-                        <a href="status.php?acao=deletar&id=<?php echo $c['id']; ?>" onclick="return confirm('Tem certeza que deseja apagar?');">Apagar</a>
-                    </nav>
-
-                </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </main>
+    <?php endforeach; ?>
+</main>
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 </body>
