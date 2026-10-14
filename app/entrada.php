@@ -137,6 +137,10 @@ require_once __DIR__ . '/../includes/functions.php';
             <h2>Adicione o valor da entrada:</h2>
             <div class="campo-grupo">
                 <input type="text" name="entrada" id="entrada" placeholder="00.00" required> 
+
+                <input type="text" name="nomepaciente" id="nomepaciente" placeholder="Insira o Nome e sobrenome do paciente" required> 
+
+                <input type="text" name="metodo" id="metodo" placeholder="Insira o metodo de pagamento" required> 
             </div>
 
             <label for="dia">Dia:</label>
@@ -154,7 +158,7 @@ require_once __DIR__ . '/../includes/functions.php';
 
         <?php
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            entrada($conexao, $_POST['entrada'], $_POST['dia']);
+            entrada($conexao, $_POST['entrada'], $_POST['dia'], $_POST['nomePaciente'], $_POST['metodo']);
         }
         ?>
 

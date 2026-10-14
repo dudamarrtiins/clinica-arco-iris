@@ -137,6 +137,8 @@ require_once __DIR__ . '/../includes/functions.php';
             
             <div class="campo-grupo">
                 <input type="text" name="saida" id="saida" placeholder="00.00" required>
+
+                <input type="text" name="motivo" id="motivo" placeholder="Insira o motivo da saída:" required>
             </div>
 
             <label for="dia">Dia:</label>
@@ -153,7 +155,7 @@ require_once __DIR__ . '/../includes/functions.php';
 
         <?php
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            saida($conexao, $_POST['saida'], $_POST['dia']);
+            saida($conexao, $_POST['saida'], $_POST['dia'], $_POST['motivo']);
         }
         ?>
 

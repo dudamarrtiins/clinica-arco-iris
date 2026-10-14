@@ -217,20 +217,23 @@ function consultar($conexao, $nome)
 
 // ENTRADA DE DINHEIRO - GESTAO
 
-function entrada($conexao, $valor_entrada, $dia)
+function entrada($conexao, $valor_entrada, $dia, $nomePaciente, $metodo)
 {
     require_once __DIR__ . '/../database/connect.php'; // mostra o caminho 
 
     // Pega o ID do usuário conectado na sessão atual
     $id_usuario = $_SESSION['id'];
 
-    $sql = "INSERT INTO entrada (valor_entrada, dia, id_usuario) VALUES (:entrada, :dia, :id_usuario)";  
+    $sql = "INSERT INTO entrada (valor_entrada, dia, id_usuario, nomepaciente, metodo) VALUES (:entrada, :dia, :id_usuario, :nomepaciente, :metodo)";  
 
     try { // ta atribuindo os valores para as colunas
         $stmt = $conexao->prepare($sql);
         $stmt->bindParam(":entrada", $valor_entrada);
         $stmt->bindParam(":dia", $dia);
-        $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
+        $stmt->bindParam(":id_usuario", $id_usuario,);
+        $stmt->bindParam(":nomepaciente", $nomePaciente,);
+        $stmt->bindParam(":metodo", $metodo, 
+        PDO::PARAM_INT);
         $stmt->execute();
         echo "Registrado Ganho!";
     } catch (PDOException $e) {
@@ -242,20 +245,22 @@ function entrada($conexao, $valor_entrada, $dia)
 
 // SAIDA DE DINHEIRO - GESTAO
 
-function saida($conexao, $valor_saida, $dia)
+function saida($conexao, $valor_saida, $dia, $motivo)
 {
     require_once __DIR__ . '/../database/connect.php'; // mostra o caminho 
 
     // Pega o ID do usuário conectado na sessão atual
     $id_usuario = $_SESSION['id'];
 
-    $sql = "INSERT INTO saida (valor_saida, dia, id_usuario) VALUES (:saida, :dia, :id_usuario)";  
+    $sql = "INSERT INTO saida (valor_saida, dia, id_usuario, motivo) VALUES (:saida, :dia, :id_usuario, :motivo)";  
 
     try { // ta atribuindo os valores para as colunas
         $stmt = $conexao->prepare($sql);
         $stmt->bindParam(":saida", $valor_saida);
         $stmt->bindParam(":dia", $dia);
-        $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
+        $stmt->bindParam(":id_usuario", $id_usuario,);
+        $stmt->bindParam(":motivo", $motivo,
+        PDO::PARAM_INT);
         $stmt->execute();
         echo "Registrado Gasto!";
     } catch (PDOException $e) {
@@ -281,7 +286,8 @@ function extrato($conexao)
     
     foreach ($entradas as $e) {
         echo "<br>Valor Ganho: " . $e['valor_entrada'] . "<br>";
-        echo "Valor Gasto: 0<br>";
+        echo "<br>Paciente: " . $e['nomepaciente'] . "<br>";
+        echo "<br>Método de Pagamento: " . $e['metodo'] . "<br>";
         echo "Data: " . $e['dia'] . "<br><hr>";
     }
 
@@ -293,8 +299,8 @@ function extrato($conexao)
 
     
     foreach ($saidas as $s) {
-        echo "Valor Ganho: 0<br>";
         echo "Valor Gasto: " . $s['valor_saida'] . "<br>";
+        echo "Motivo: " . $s['motivo'] . "<br>";
         echo "Data: " . $s['dia'] . "<br><hr>";
     }
 } // terminada
