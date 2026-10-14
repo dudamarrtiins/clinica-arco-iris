@@ -38,6 +38,8 @@ erDiagram
         int ID PK 
         numeric valor_entrada
         date dia
+        varchar(90) nomepaciente
+        varchar(30) metodo
         int ID_PACIENTE FK
         int ID_USUARIO FK
     }
@@ -46,6 +48,7 @@ erDiagram
         int ID PK 
         numeric valor_saida
         date dia
+        varchar(90) motivo
         int ID_PACIENTE FK
         int ID_USUARIO FK
     }
