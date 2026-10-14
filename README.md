@@ -2,6 +2,10 @@
 
  A Clínica Arco-Íris é uma aplicação web desenvolvida para gerenciar de forma prática, organizada e segura as operações essenciais de uma clínica de psicologia. O projeto foi estruturado com foco em controle de pacientes, agendamento de consultas e acompanhamento de fluxo financeiro de maneira simples e pratica.
 
+ ```bash
+    "Este projeto foi desenvolvido para fins academicos."
+ ```
+
 
 
 # 🚀 Funcionalidades Principais Cadastro de Pacientes
@@ -31,7 +35,58 @@ A arquitetura do software foi guiada estritamente pela documentação de requisi
   -  Banco de Dados: PostgreSQL (Gerenciado via pgAdmin 4 ou Moba) 
   - Frontend: HTML5, CSS3 Ferramentas de Desenvolvimento: VS Code, Git e GitHub.
 
-ESTRUTURA COMPLETA DO PROJETO 
+ESTRUTURA COMPLETA DO PROJETO:
+
+```bash
+|   index.php  - página inicial, pergunta se tem conta
+|   painel.php - página principal
+|   README.md  - este arquivo README
+|   
++---app  - pasta com todas as páginas "principais"
+|       agenda.php  - possui o calendario
+|       agendamento.php - administra os agendamentos 
+|       apaga.php - apaga paciente
+|       atualizar.php - atualiza as informações dos pacientes
+|       cadastraPaciente.php - cadastra os pacientes
+|       consultar.php - pesquisa um paciente e seus dados 
+|       entrada.php - faz a entrada de um valor em dinheiro
+|       extrato.php - mostra o extrato de entradas e saídas 
+|       gestao.php - painel principal da entrada, saída e extrato
+|       prontuario.php - mostra o nome de todos ospacientes
+|       remarcar.php - remarca um atendimento
+|       saida.php - faz a saída de um valor em dinheiro
+|       status.php - muda o status da consulta ( agendada, cancelada, realizada )
+|       
++---database - pasta com os arquivos de conexão
+|       arcoires.sql
+|       config.php
+|       configLocal.php
+|       connect.php
+|       connet2.php
+|       
+|       
++---documentacao
+|   |   documentacao.md
+|   |   
+|   \---banco_de_dados
+|           dicionario_dados_arcoires.xlsx
+|           mermaid.md
+|           
++---includes
+|       footer.php
+|       functions.php
+|       header.php
+|       headerProntuario.php
+|       
++---login
+|       cadastrar.php
+|       login.php
+|       logout.php
+|       verifica_user
+|       
+\---sql
+        backup_clinica.sql
+```
 
 ```mermaid
 erDiagram
