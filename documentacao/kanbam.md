@@ -43,3 +43,7 @@
 fazer em casa??
 
 - deu um milhao de erros, cancela o plano!!!!
+
+- coisas a corrigir:
+o agendamento não pode aparecer o nome de todos os pacientes!
+- o dump esta certo?
