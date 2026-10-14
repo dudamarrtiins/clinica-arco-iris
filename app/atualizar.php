@@ -158,23 +158,21 @@ require_once __DIR__ . '/../includes/functions.php';
         <h3>Atualizar Paciente:</h3>
         <form action="" method="post">
 
-            <label for="id">ID: </label>
-            <input type="number" name="id" id="id" placeholder="Insira um ID para atualizar" required>
 
             <label for="nome">Nome: </label>
-            <input type="text" name="nome" id="nome">
+            <input type="text" name="nome" id="nome" placeholder="Insira o nome do paciente " >
 
             <label for="cpf">CPF: </label>
-            <input type="text" name="cpf" id="cpf">
+            <input type="text" name="cpf" id="cpf" placeholder="000.000.000-00" >
 
             <label for="nasc">Nascimento: </label>
             <input type="date" name="nasc" id="nasc">
 
             <label for="idade">Idade: </label>
-            <input type="number" name="idade" id="idade">
+            <input type="number" name="idade" id="idade" placeholder="00" >
 
             <label for="convenio">Convenio: </label>
-            <input type="text" name="convenio" id="convenio">
+            <input type="text" name="convenio" id="convenio" placeholder="Insira o nome do convenio" >
 
             <label for="sexo">Sexo:</label>
             <select name="sexo" id="sexo" required>
@@ -184,7 +182,7 @@ require_once __DIR__ . '/../includes/functions.php';
             </select>
 
             <label for="telefone">Telefone: </label>
-            <input type="text" name="telefone" id="telefone">
+            <input type="text" name="telefone" id="telefone" placeholder="(00)0000-0000" >
 
             <div class="botoes-container">
                 <input type="submit" value="Atualizar">
@@ -196,7 +194,7 @@ require_once __DIR__ . '/../includes/functions.php';
 
         <?php
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            atualizar($conexao, $_POST['id'], $_POST['nome'], $_POST['cpf'], $_POST['nasc'], $_POST['idade'], $_POST['convenio'], $_POST['sexo'], $_POST['telefone']);
+            atualizar($conexao, $_POST['nome'], $_POST['cpf'], $_POST['nasc'], $_POST['idade'], $_POST['convenio'], $_POST['sexo'], $_POST['telefone']);
         }
         ?>
     </main>

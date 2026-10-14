@@ -160,19 +160,19 @@ require_once __DIR__ . '/../includes/functions.php';
         
         <form action="" method="post">
             <label for="nome">Nome: </label>
-            <input type="text" name="nome" id="nome">
+            <input type="text" name="nome" id="nome" placeholder="nome sobrenome">
 
             <label for="cpf">CPF: </label>
-            <input type="text" name="cpf" id="cpf">
+            <input type="text" name="cpf" id="cpf" placeholder="000.000.000-00">
 
             <label for="nasc">Nascimento: </label>
             <input type="date" name="nasc" id="nasc">
 
             <label for="idade">Idade: </label>
-            <input type="number" name="idade" id="idade">
+            <input type="number" name="idade" id="idade"placeholder="00">
 
             <label for="convenio">Convenio: </label>
-            <input type="text" name="convenio" id="convenio">
+            <input type="text" name="convenio" id="convenio" placeholder="nome do convenio">
 
             <label for="sexo">Sexo:</label>
             <select name="sexo" id="sexo" required>
@@ -182,7 +182,7 @@ require_once __DIR__ . '/../includes/functions.php';
             </select>
 
             <label for="telefone">Telefone: </label>
-            <input type="text" name="telefone" id="telefone">
+            <input type="text" name="telefone" id="telefone" placeholder="(00)00000000">
 
             <div class="botoes-container">
                 <input type="submit" value="Cadastrar">

@@ -7,8 +7,13 @@ if (!isset($_SESSION['id'])) {
 
 require_once __DIR__ . '/../includes/functions.php';
 
+// 1. Pega o ID do usuário logado na sessão
+$id_usuario = $_SESSION['id'];
+
 // Busca lista de pacientes para o seletor (dropdown)
-$stmtP = $conexao->prepare("SELECT id, nome FROM paciente ORDER BY nome ASC");
+$stmtP = $conexao->prepare("SELECT id, nome FROM paciente WHERE id_usuario = :id_usuario ORDER BY nome ASC");
+$stmtP->bindParam(':id_usuario', $id_usuario);
+
 $stmtP->execute();
 $pacientes = $stmtP->fetchAll(PDO::FETCH_ASSOC);
 

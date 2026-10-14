@@ -136,7 +136,7 @@ require_once __DIR__ . '/../includes/functions.php';
             <h2>Adicione o valor da saida:</h2>
             
             <div class="campo-grupo">
-                <input type="text" name="saida" id="saida" required>
+                <input type="text" name="saida" id="saida" placeholder="00.00" required>
             </div>
 
             <label for="dia">Dia:</label>

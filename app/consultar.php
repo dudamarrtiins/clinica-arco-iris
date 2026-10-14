@@ -146,7 +146,7 @@ require_once __DIR__ . '/../includes/functions.php';
     <form action="" method="post">
         <label for="nome">Nome: </label>
         <div class="barra-busca-container">
-            <input type="text" name="nome" id="nome" placeholder="Insira o nome inteiro para consultar" required>
+            <input type="text" name="nome" id="nome" placeholder="Insira um nome para consultar" required>
             <input type="submit" value="Consultar">
         </div>
     </form>

@@ -126,9 +126,9 @@ function apagar($conexao, $nome)
     }
 } // TERMINADA, NÃO MEXER
 
-// ATUALIZAR 
+                 // ATUALIZAR 
 
-function atualizar($conexao, $id, $nome, $cpf, $nasc, $idade, $convenio, $sexo, $telefone)
+function atualizar($conexao, $nome, $cpf, $nasc, $idade, $convenio, $sexo, $telefone)
 {
     require_once __DIR__ . '/../database/connect.php'; 
 
@@ -137,12 +137,11 @@ function atualizar($conexao, $id, $nome, $cpf, $nasc, $idade, $convenio, $sexo, 
    
     // SEGURANÇA: Atualiza os dados APENAS se o paciente pertencer ao usuário logado
     $sql = "UPDATE paciente 
-            SET nome = :nome, cpf = :cpf, nasc = :nasc, idade = :idade, convenio = :convenio, sexo = :sexo 
-            WHERE id = :id AND id_usuario = :id_usuario";
+            SET cpf = :cpf, nasc = :nasc, idade = :idade, convenio = :convenio, sexo = :sexo 
+            WHERE nome = :nome AND id_usuario = :id_usuario";
 
     try { 
         $stmt = $conexao->prepare($sql);
-        $stmt->bindParam(":id", $id);
         $stmt->bindParam(":nome", $nome);
         $stmt->bindParam(":cpf", $cpf);
         $stmt->bindParam(":nasc", $nasc);
@@ -168,13 +167,13 @@ function atualizar($conexao, $id, $nome, $cpf, $nasc, $idade, $convenio, $sexo, 
 } // TERMINADA, NÃO MEXER EM NADA
 
 
-//                     SELECT - CONSULTAR - VER UM SÓ
+//              SELECT - CONSULTAR - VER UM SÓ
 function consultar($conexao, $nome)
 {
     // Pega o ID do usuário conectado na sessão atual
     $id_usuario = $_SESSION['id'];
 
-    $sql = "SELECT * FROM paciente WHERE nome LIKE :nome AND id_usuario = :id_usuario";
+    $sql = "SELECT * FROM paciente WHERE LOWER(nome) LIKE LOWER(:nome) AND id_usuario = :id_usuario";
 
     try {
         $stmt = $conexao->prepare($sql);
@@ -214,7 +213,7 @@ function consultar($conexao, $nome)
     }
 } // TERMINADA, NÃO MEXER
 
-//                        ENTRADA DE DINHEIRO - GESTAO
+//                  ENTRADA DE DINHEIRO - GESTAO
 
 // ENTRADA DE DINHEIRO - GESTAO
 
@@ -239,7 +238,7 @@ function entrada($conexao, $valor_entrada, $dia)
     }
 } // terminada, não mexer
 
-//                       SAIDA DE DINHEIRO - GESTAO
+//                  SAIDA DE DINHEIRO - GESTAO
 
 // SAIDA DE DINHEIRO - GESTAO
 
@@ -265,9 +264,7 @@ function saida($conexao, $valor_saida, $dia)
 } // terminada, não mexer
 
 
-//                            EXTRATO
-
-// EXTRATO
+//                        EXTRATO
 
 function extrato($conexao)
 {
@@ -302,7 +299,7 @@ function extrato($conexao)
     }
 } // terminada
 
-//            Cadastrar USER
+//                   Cadastrar USER
 function cadastrar_user($conexao, $email, $senha) {
     // Exemplo do seu INSERT:
     $sql = "INSERT INTO usuarios (email, senha) VALUES (:email, :senha)";
@@ -332,7 +329,7 @@ function consulta_user($conexao, $email)
     }
 }
 
-//                         AGENDAMENTO 
+//                    AGENDAMENTO 
 // 1. Marca um novo atendimento (status inicia automaticamente como 'agendada')
 function agendarConsulta($conexao, $id_paciente, $dia, $hora)
 {
@@ -440,7 +437,7 @@ function listarConsultas($conexao)
     }
 } // terminada, acho que nao vai funcionar!
 
-// GRAFICO
+                        // GRAFICO
 function obterResumoFinanceiro($conexao)
 {
     // Pega o ID do usuário conectado na sessão atual
