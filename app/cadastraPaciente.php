@@ -155,46 +155,46 @@ require_once __DIR__ . '/../includes/functions.php';
     include __DIR__ . '/../includes/header.php';
     ?>
 
-    <main>
+    <main> <!--main pois o conteudo principal esta aqui:-->
         <h3>Cadastrar Paciente:</h3>
         
         <form action="" method="post">
-            <label for="nome">Nome: </label>
+            <label for="nome">Nome: </label> <!--pegando o nome-->
             <input type="text" name="nome" id="nome" placeholder="nome sobrenome">
 
-            <label for="cpf">CPF: </label>
+            <label for="cpf">CPF: </label> <!--pegando o cpf-->
             <input type="text" name="cpf" id="cpf" placeholder="000.000.000-00">
 
-            <label for="nasc">Nascimento: </label>
+            <label for="nasc">Nascimento: </label> <!--pegando o nasc-->
             <input type="date" name="nasc" id="nasc">
 
-            <label for="idade">Idade: </label>
+            <label for="idade">Idade: </label> <!--pegando a idade-->
             <input type="number" name="idade" id="idade"placeholder="00">
 
-            <label for="convenio">Convenio: </label>
+            <label for="convenio">Convenio: </label> <!--pegando o convenio-->
             <input type="text" name="convenio" id="convenio" placeholder="nome do convenio">
 
-            <label for="sexo">Sexo:</label>
+            <label for="sexo">Sexo:</label> <!--para selecionar o sexo-->
             <select name="sexo" id="sexo" required>
                 <option value="" disabled selected>Selecione...</option>
                 <option value="F">Feminino</option>
                 <option value="M">Masculino</option>
             </select>
 
-            <label for="telefone">Telefone: </label>
+            <label for="telefone">Telefone: </label> <!--para receber o tele-->
             <input type="text" name="telefone" id="telefone" placeholder="(00)00000000">
 
             <div class="botoes-container">
                 <input type="submit" value="Cadastrar">
                 <input type="reset" value="Limpar">
                 <a href="prontuario.php">Voltar</a>
-            </div>
+            </div> <!--div para deixar mais organizado e para o css-->
         </form>
 
         <?php
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             cadastrar($conexao, $_POST['nome'], $_POST['cpf'], $_POST['nasc'], $_POST['idade'], $_POST['convenio'], $_POST['sexo'], $_POST['telefone']);
-        }
+        } // passando todos os parametros para a função cadastrar
         ?>
     </main>
 

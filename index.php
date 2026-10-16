@@ -99,18 +99,18 @@
 </head>
 <body>
 
-    <div class="header-topo"></div>
+    <div class="header-topo"></div> <!--div para o CSS (div 1)-->
     <main>
         <h3>Portal de Acesso</h3>
 
-        <div class="card-portal">
+        <div class="card-portal"> <!--div para o CSS (div 2)-->
             <p>Já possui uma conta?</p>
-            <a href="/login/login.php">Clique aqui para logar</a>
+            <a href="clinica_arco_iris/login/login.php">Clique aqui para logar</a> <!--btn-->
             <p>Não possui uma conta?</p>
-            <a href="/login/cadastrar.php">Cadastra-se</a>
-        </div>
+            <a href="clinica_arco_iris/login/cadastrar.php">Cadastra-se</a> <!--btn-->
+        </div> <!--fim da div 2-->
     </main>
 
-    <div class="footer-base"></div>
+    <div class="footer-base"></div> <!--fim da div 1-->
 </body>
 </html>

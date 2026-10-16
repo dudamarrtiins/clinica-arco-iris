@@ -131,32 +131,33 @@ require_once __DIR__ . '/../includes/functions.php';
     include __DIR__ . '/../includes/header.php';
     ?>
 
-    <main>
+    <main> <!--main tem a parte mais import da pag-->
         <form action="" method="post">
             <h2>Adicione o valor da saida:</h2>
             
             <div class="campo-grupo">
-                <input type="text" name="saida" id="saida" placeholder="00.00" required>
+                <input type="text" name="saida" id="saida" placeholder="00.00" required> <!--prga o valor da saida-->
 
                 <input type="text" name="motivo" id="motivo" placeholder="Insira o motivo da saída:" required>
+                <!--pega o motivo da saida-->
             </div>
 
-            <label for="dia">Dia:</label>
+            <label for="dia">Dia:</label> <!--pega o dia-->
             <div class="campo-grupo">
                 <input type="date" name="dia" id="dia" required>
             </div>
 
-            <div class="botoes-container">
+            <div class="botoes-container"> <!--div para o CSS, btns-->
                 <input type="submit" value="Registrar Gasto">
                 <input type="reset" value="Cancelar">
-                <a href="/app/gestao.php" class="btn-voltar">Voltar</a>
+                <a href="gestao.php" class="btn-voltar">Voltar</a>
             </div>
         </form>
 
         <?php
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             saida($conexao, $_POST['saida'], $_POST['dia'], $_POST['motivo']);
-        }
+        } // passando os parametros da variavel saida
         ?>
 
     </main>

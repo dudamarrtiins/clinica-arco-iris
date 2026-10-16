@@ -4,8 +4,8 @@ if(session_status() == PHP_SESSION_NONE){
 }
 
 $_SESSION = array();
-session_destroy();
+session_destroy(); // destroi a sessão atual
 
-header("Location: ../index.php");
-exit();
+header("Location: ../index.php"); //redireciona para o index
+exit(); // sai
 ?>

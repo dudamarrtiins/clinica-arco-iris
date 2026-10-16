@@ -108,12 +108,12 @@ if (!isset($_SESSION['id'])) {
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <main>
-        <!-- TÍTULO COLOCADO DENTRO DO MAIN (LOGO ABAIXO DA BARRA SUPERIOR) -->
+        
         <h2>Prontuário</h2>
 
         <!-- CARD AZUL QUE ENVOLVE OS DADOS DO PACIENTE -->
-        <div class="card-prontuario-container">
-            <?php prontuario($conexao, $_SESSION['id']); ?>
+        <div class="card-prontuario-container"> <!--div para organizar o CSS-->
+            <?php prontuario($conexao, $_SESSION['id']); ?> <!--passando os paramentros-->
         </div>
 
         <!-- BARRA AZUL SEPARADA NA PARTE INFERIOR -->

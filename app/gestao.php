@@ -75,14 +75,14 @@ require_once __DIR__ . '/../includes/functions.php';
     include __DIR__ . '/../includes/header.php';
     ?>
 
-    <main>
+    <main> <!--main pois o mais impor da pag esta aqui:-->
         <h1>Painel de Gestão Financeira</h1>
 
         <!-- BARRA AZUL COM SEUS LINKS DE AÇÃO -->
-        <div class="barra-gestao-acoes">
-            <a href="/app/entrada.php">Registrar Ganho</a>
-            <a href="/app/saida.php">Registrar Gasto</a>
-            <a href="/app/extrato.php">Ver extrato</a>
+        <div class="barra-gestao-acoes"> <!--bnts de "navegar"-->
+            <a href="entrada.php">Registrar Ganho</a>
+            <a href="saida.php">Registrar Gasto</a>
+            <a href="extrato.php">Ver extrato</a>
         </div>
     </main>
 

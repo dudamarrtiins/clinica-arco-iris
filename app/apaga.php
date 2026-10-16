@@ -64,7 +64,7 @@ require_once __DIR__ . '/../includes/functions.php';
             display: block;
         }
 
-        /* INPUT DE NOME - PÍLULA AZUL LARGA */
+        /* INPUT DE NOME - PAERTE AZUL LARGA */
         input[type="text"] {
             width: 100%;
             height: 48px;
@@ -124,19 +124,20 @@ require_once __DIR__ . '/../includes/functions.php';
 
     <main>
     <form action="" method="post">
-        <label for="nome">Nome: </label>
+        <label for="nome">Nome: </label> <!--digita o nome -->
         <input type="text" name="nome" id="nome" placeholder="Insira o nome completo" required>
         
         <div class="botoes-container">
-            <input type="submit" value="Apagar">
-            <a href="prontuario.php" class="btn-voltar">Voltar</a>
-        </div>
-    </form> <!-- Forms simples-->
+            <input type="submit" value="Apagar"> <!--recebe o nome-->
+            <a href="prontuario.php" class="btn-voltar">Voltar</a> <!--bnt para ir para o prontu--> 
+        </div> 
+    </form> <!--fim do forms-->
 
     <?php 
     if($_SERVER['REQUEST_METHOD']=="POST"){
         apagar($conexao, $_POST['nome']);
     }
+    // passando os parametros da variavel apagar
     ?>
     </main>
     <?php include __DIR__ . '/../includes/footer.php'; ?>

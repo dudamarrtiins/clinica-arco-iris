@@ -190,23 +190,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php endif; ?>
 
         <form method="POST" action="">
+
             <label for="id_paciente">Paciente:</label>
+
             <select name="id_paciente" id="id_paciente" required>
+
                 <option value="">-- Selecione o Paciente --</option>
                 <?php foreach ($pacientes as $p): ?>
                     <option value="<?php echo $p['id']; ?>"><?php echo $p['nome']; ?></option>
                 <?php endforeach; ?>
             </select>
 
-            <label for="dia">Data:</label>
+            <label for="dia">Data:</label> <!-- recebe o dia -->
             <input type="date" name="dia" id="dia" required>
+            
 
-            <label for="hora">Horário:</label>
+            <label for="hora">Horário:</label> <!--recebe a hora-->
             <input type="time" name="hora" id="hora" required>
 
             <div class="botoes-container">
-                <input type="submit" value="Salvar Consulta">
-                <a href="agenda.php">Voltar</a>
+                <input type="submit" value="Salvar Consulta"> <!-- btn de mandar o que digitado-->
+                <a href="agenda.php">Voltar</a> <!--bnt de voltar para o painel-->
             </div>
         </form>
     </main>

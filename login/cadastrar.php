@@ -1,17 +1,17 @@
 <?php 
 require_once __DIR__ . '/../includes/functions.php';
 
-// Trata o envio do formulário ANTES de qualquer HTML ser renderizado
+// trata o envio do formulário ANTES de qualquer HTML ser renderizado
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     
-    // 1. Executa a função de cadastro
+    // executa a função de cadastro
     $id_novo_usuario = cadastrar_user($conexao, $_POST['email'], $_POST['senha']);
     
-    // 2. Inicia a sessão e faz o "login automático" do usuário cadastrado
+    // inicia a sessão e faz o "login automático" do usuário cadastrado
     session_start();
     $_SESSION['id'] = $id_novo_usuario; // Salva a sessão para o painel permitir o acesso
     
-    // 3. Redireciona para o painel dentro da pasta app/
+    // redireciona para o painel dentro da pasta app/
     header("Location: ../painel.php");
     exit();
 }
@@ -143,24 +143,24 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 <!--faixa azul-->
 <div class="header-topo"></div>
-    <main>
+    <main><!--parte mais importante aqui dentro:-->
         <h3>Cadastre-se no Sistema:</h3>
 
-        <div class="card-cadastro">
-            <form action="" method="post">
+        <div class="card-cadastro"> <!--div para o CSS-->
+            <form action="" method="post"> <!--forms simples:-->
 
-                <div class="campo-grupo">
+                <div class="campo-grupo"> <!--div para o CSS-->
                     <label for="email">E-mail: </label>
                     <input type="text" name="email" id="email" required>
                 </div>
 
-                <div class="campo-grupo">
+                <div class="campo-grupo"> <!--div para o CSS-->
                     <label for="senha">Senha: </label>
                     <input type="password" name="senha" id="senha" required>
                 </div>
 
-                <div class="botoes-grupo">
-                    <input type="submit" value="Cadastrar">
+                <div class="botoes-grupo"> <!--div para o CSS-->
+                    <input type="submit" value="Cadastrar"> <!--btns-->
                     <input type="reset" value="Limpar">
                 </div>
 

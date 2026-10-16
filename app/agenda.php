@@ -138,9 +138,10 @@ $consultas = listarConsultas($conexao);
         <?php 
             // Busca o paciente direto pelo ID da consulta
             $stmtP = $conexao->prepare("SELECT nome FROM paciente WHERE id = :id");
+            // sql : selecione nome na tabela paciente onde o ID for igual ao ID informad/recebido
             $stmtP->bindParam(':id', $c['id_paciente']);
-            $stmtP->execute();
-            $paciente = $stmtP->fetch(PDO::FETCH_ASSOC);
+            $stmtP->execute(); // execulte o comando
+            $paciente = $stmtP->fetch(PDO::FETCH_ASSOC); // aqui ele ja tem o nome do paciente buscado
         ?>
 
         <div class="bloco-consulta-item">

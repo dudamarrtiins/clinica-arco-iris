@@ -1,23 +1,23 @@
 <?php 
 require_once __DIR__ . '/../includes/functions.php';
 
-session_start();
+session_start(); // inicia a sessão
 
-// Se já estiver logado, redireciona
+// se já estiver logado, redireciona para o painel.php
 if (isset($_SESSION['id'])) {
     header("Location: /../painel.php");
     exit();
 }
 
-// Guarda a mensagem de erro se o login falhar
+// guarda a mensagem de erro se o login falhar
 $erro_login = "";
 
-// Processa o formulário ANTES de desenhar o HTML na tela
+// processa o formulário ANTES de desenhar o HTML na tela
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $usuario = consulta_user($conexao, $_POST['email']);
 
     if ($usuario && $usuario['email'] == $_POST['email'] && $usuario['senha'] == $_POST['senha']) {
-        $_SESSION['id'] = $usuario['id']; // Salva o ID na sessão que já está aberta
+        $_SESSION['id'] = $usuario['id']; // salva o ID na sessão que já está aberta
         header("Location: /../painel.php");
         exit();
     } else {
@@ -157,12 +157,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <!-- Faixa azul superior -->
     <div class="header-topo"></div>
 
-    <main>
+    <main><!--parte importante da pag:-->
         <h3>Faça login para continuar</h3>
         
         <!-- Caixinha azul do login -->
-        <div class="card-login">
-            <form action="" method="post">
+        <div class="card-login"><!--div para o CSS-->
+            <form action="" method="post"><!--forms simples:-->
 
                 <div class="campo-grupo">
                     <label for="email">E-mail: </label>
@@ -183,7 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         </div>
 
         <?php if (!empty($erro_login)): ?>
-            <p class="msg-erro"><?php echo $erro_login; ?></p>
+            <p class="msg-erro"><?php echo $erro_login; ?></p> <!--mensagem de erro-->
         <?php endif; ?>
     </main>
 

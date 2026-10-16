@@ -27,10 +27,10 @@ function cadastrar($conexao, $nome, $cpf, $nasc, $idade, $convenio, $sexo, $tele
 
         $stmt->execute();
 
-        $idPaciente = $conexao->lastInsertId(); // puxa o id
-        // para pegar o id da tabela paciente que tbm esta na tabela de telefone
+        $idPaciente = $conexao->lastInsertId(); 
+        
 
-        // mesma coisa que o de cima, só que com a tab de tele:
+        // mesma coisa que o de cima, só que com a tab de tele, sempre puxando pelo id para não ter mistura estre usuarios:
         $sqlTelefone = "INSERT INTO telefone (id_paciente, telefone) VALUES (:id_paciente, :telefone)";
 
         $stmtTelefone = $conexao->prepare($sqlTelefone);
@@ -51,6 +51,7 @@ function prontuario($conexao, $id_usuario)
     // Pega o ID do usuário conectado na sessão atual
 
     $sqlPacientes = "SELECT * FROM paciente WHERE id_usuario = $id_usuario";
+    // selecione tudo da tabela paciente onde o id for igual ao id do user da sessão
 
     try {
         $stmt = $conexao->prepare($sqlPacientes);
@@ -61,16 +62,16 @@ function prontuario($conexao, $id_usuario)
         foreach ($pacientes as $paciente) {
             echo "ID: {$paciente['id']}<br>";
             echo "nome: {$paciente['nome']}<br>";
-    
+            // printa essas informações
 
             // Busca O TELEFONE DESTE PACIENTE específico
             $sqlTel = "SELECT telefone FROM telefone WHERE id_paciente = :id_paciente";
 
-            $stmtTel = $conexao->prepare($sqlTel);
+            $stmtTel = $conexao->prepare($sqlTel); // prepare esse sql
 
-            $stmtTel->bindParam(":id_paciente", $paciente['id']);
+            $stmtTel->bindParam(":id_paciente", $paciente['id']); //puxa pelo id
 
-            $stmtTel->execute();
+            $stmtTel->execute(); //execulta
 
             $sqltel = $stmtTel->fetch(PDO::FETCH_ASSOC);
 
@@ -78,9 +79,9 @@ function prontuario($conexao, $id_usuario)
         }
 
     } catch (PDOException $e) {
-        echo "Erro: " . $e->getMessage();
+        echo "Erro: " . $e->getMessage(); // mensagem de erro
     }
-} // TERMINADA, NÃO MEXER EM NADA, comecei mexer, tem que terminar
+} // TERMINADA, NÃO MEXER EM NADA, comecei mexer, tem que terminar, terminadaaa!
 
 //                 DELETE - delete/Apagar
 
@@ -91,12 +92,12 @@ function apagar($conexao, $nome)
     $id_usuario = $_SESSION['id'];
 
     try {
-        // SEGURANÇA: busca o ID do paciente pelo nome E pelo dono da conta (id_usuario)
+        // busca o ID do paciente pelo nome E pelo dono da conta (id_usuario)
         $sqlBusca = "SELECT id FROM paciente WHERE nome = :nome AND id_usuario = :id_usuario";
         $stmtBusca = $conexao->prepare($sqlBusca);
         $stmtBusca->bindParam(":nome", $nome);
         $stmtBusca->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
-        $stmtBusca->execute();
+        $stmtBusca->execute(); // execulte
         
         $paciente = $stmtBusca->fetch(PDO::FETCH_ASSOC);
 

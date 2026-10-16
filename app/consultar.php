@@ -142,12 +142,13 @@ require_once __DIR__ . '/../includes/functions.php';
     <?php include '../includes/header.php'; ?>
 
     <h1>Consultar Paciente</h1>
-    <main>
+    <main> <!--main pois o conteudo principal esta aqui:-->
     <form action="" method="post">
-        <label for="nome">Nome: </label>
-        <div class="barra-busca-container">
+        <label for="nome">Nome: </label> <!--pegando o nome-->
+
+        <div class="barra-busca-container"> <!--div para organização do CSS-->
             <input type="text" name="nome" id="nome" placeholder="Insira um nome para consultar" required>
-            <input type="submit" value="Consultar">
+            <input type="submit" value="Consultar"> <!--bnts-->
         </div>
     </form>
     
@@ -156,7 +157,7 @@ require_once __DIR__ . '/../includes/functions.php';
         echo '<div class="resultado-consulta-card">';
         consultar($conexao, $_POST['nome']);
         echo '</div>';
-    }
+    } // passando os parametros da função consultar
     ?>
     </main>
     <?php include __DIR__ . '/../includes/footer.php'; ?>

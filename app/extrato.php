@@ -96,16 +96,16 @@ require_once __DIR__ . '/../includes/functions.php';
 <body>
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
-    <main>
+    <main> <!--main, pois o impor da pag esta aqui:-->
         <h1>Sua movimentação<br>financeira:</h1>
 
         <!-- Card azul gigante contendo a listagem do extrato -->
         <div class="card-extrato-container">
-            <?php extrato($conexao); ?>
+            <?php extrato($conexao); ?> <!--passando o parametro-->
         </div>
 
         <!-- Botão Voltar azul e arredondado em baixo -->
-        <a href="/app/gestao.php" class="btn-voltar">Voltar</a>
+        <a href="gestao.php" class="btn-voltar">Voltar</a> <!--bnt-->
     </main>
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>

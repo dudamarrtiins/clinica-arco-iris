@@ -154,48 +154,48 @@ require_once __DIR__ . '/../includes/functions.php';
 <body>
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
-    <main>
+    <main> <!--main pois o principal esta aqui:-->
         <h3>Atualizar Paciente:</h3>
         <form action="" method="post">
 
 
-            <label for="nome">Nome: </label>
+            <label for="nome">Nome: </label> <!--pegando o nome-->
             <input type="text" name="nome" id="nome" placeholder="Insira o nome do paciente " >
 
-            <label for="cpf">CPF: </label>
+            <label for="cpf">CPF: </label> <!--pegando o CPF-->
             <input type="text" name="cpf" id="cpf" placeholder="000.000.000-00" >
 
-            <label for="nasc">Nascimento: </label>
+            <label for="nasc">Nascimento: </label> <!--pegando o nasc-->
             <input type="date" name="nasc" id="nasc">
 
-            <label for="idade">Idade: </label>
+            <label for="idade">Idade: </label> <!--pegando a idade-->
             <input type="number" name="idade" id="idade" placeholder="00" >
 
-            <label for="convenio">Convenio: </label>
+            <label for="convenio">Convenio: </label> <!--pegando o convenio-->
             <input type="text" name="convenio" id="convenio" placeholder="Insira o nome do convenio" >
 
-            <label for="sexo">Sexo:</label>
+            <label for="sexo">Sexo:</label> <!--pegando o sexo-->
             <select name="sexo" id="sexo" required>
                 <option value="" disabled selected>Selecione...</option>
                 <option value="F">Feminino</option>
                 <option value="M">Masculino</option>
             </select>
 
-            <label for="telefone">Telefone: </label>
+            <label for="telefone">Telefone: </label> <!--pegando o telefone-->
             <input type="text" name="telefone" id="telefone" placeholder="(00)0000-0000" >
 
-            <div class="botoes-container">
+            <div class="botoes-container"> <!--recebendo as infor e div para semantica mais organizada-->
                 <input type="submit" value="Atualizar">
                 <input type="reset" value="Limpar">
-                <a href="prontuario.php">Voltar</a>
+                <a href="prontuario.php">Voltar</a> <!--bnt de ir para o pront-->
             </div>
 
-        </form>
+        </form> <!--fim do forms-->
 
         <?php
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             atualizar($conexao, $_POST['nome'], $_POST['cpf'], $_POST['nasc'], $_POST['idade'], $_POST['convenio'], $_POST['sexo'], $_POST['telefone']);
-        }
+        } // passando todos os parametros da função atualizar
         ?>
     </main>
 

@@ -131,27 +131,28 @@ require_once __DIR__ . '/../includes/functions.php';
     include __DIR__ . '/../includes/header.php';
     ?>
 
-    <main>
+    <main> <!--main, pois o mais importante da pag esta aqui:-->
         <form action="" method="post">
             
             <h2>Adicione o valor da entrada:</h2>
             <div class="campo-grupo">
-                <input type="text" name="entrada" id="entrada" placeholder="00.00" required> 
+                <input type="text" name="entrada" id="entrada" placeholder="00.00" required> <!--pega o valor-->
 
-                <input type="text" name="nomepaciente" id="nomepaciente" placeholder="Insira o Nome e sobrenome do paciente" required> 
+                <input type="text" name="nomepaciente" id="nomepaciente" placeholder="Insira o Nome e sobrenome do paciente" required>  <!--pega o nome-->
 
                 <input type="text" name="metodo" id="metodo" placeholder="Insira o metodo de pagamento" required> 
+                <!--pega o metodo do pag-->
             </div>
 
-            <label for="dia">Dia:</label>
+            <label for="dia">Dia:</label> <!--pega o dia-->
             <div class="campo-grupo">
                 <input type="date" name="dia" id="dia" required>
             </div>
 
-            <div class="botoes-container">
-                <input type="submit" value="Registrar Ganho">
+            <div class="botoes-container"> <!--div para organizar o CSS-->
+                <input type="submit" value="Registrar Ganho"> <!-- bnts-->
                 <input type="reset" value="Cancelar">
-                <a href="/app/gestao.php" class="btn-voltar">Voltar</a>
+                <a href="gestao.php" class="btn-voltar">Voltar</a>
             </div>
 
         </form>
@@ -159,7 +160,7 @@ require_once __DIR__ . '/../includes/functions.php';
         <?php
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             entrada($conexao, $_POST['entrada'], $_POST['dia'], $_POST['nomePaciente'], $_POST['metodo']);
-        }
+        } // passando os parametros da função entrada
         ?>
 
     </main>
