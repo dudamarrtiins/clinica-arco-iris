@@ -6,7 +6,7 @@
     "Este projeto foi desenvolvido para fins academicos."
  ```
 
-
+---
 
 # 🚀 Funcionalidades Principais Cadastro de Pacientes
 
@@ -18,7 +18,7 @@
 
 - Navegação e Interface Interativa (RF-005): Painel acessível para transição rápida entre a agenda de atendimentos, cadastro e fluxo financeiro.
 
-
+---
 
 # 📐 Engenharia de Requisitos (Padrão ISO 29148) 
 
@@ -28,16 +28,18 @@ A arquitetura do software foi guiada estritamente pela documentação de requisi
 
 - RN-001 (Valor da Consulta): Definição do valor padrão de R$ 200,00 para cada consulta agendada. RN-002 (Liberação de Atendimento): Sessões subsequentes à primeira só são liberadas caso a consulta anterior já tenha a confirmação de pagamento.
 
-
+---
 
 # 🛠️ Tecnologias Utilizadas
 
  ### O projeto foi construído focando em uma arquitetura limpa e padrão procedural seguro:
-  - Linguagem Backend: PHP (PDO para acesso ao banco de dados com prepared statements)
-  -  Banco de Dados: PostgreSQL (Gerenciado via pgAdmin 4 ou Moba) 
-  - Frontend: HTML5, CSS3 Ferramentas de Desenvolvimento: VS Code, Git e GitHub.
+  - **Linguagem Backend:** PHP (PDO para acesso ao banco de dados com prepared statements)
+  -  **Banco de Dados:** PostgreSQL (Gerenciado via pgAdmin 4 ou Moba) 
+  - **Frontend:** HTML5, CSS3
+  - **Ferramentas de Desenvolvimento:** VS Code, Git e GitHub.
 
-ESTRUTURA COMPLETA DO PROJETO:
+---
+**ESTRUTURA COMPLETA DO PROJETO:**
 
 ```bash
 \ clinica_arco_iris
@@ -188,16 +190,16 @@ erDiagram
 
 # Acesse os demais arquivos:
 
-- Acesse a documentação completa na pasta “ documentacao” neste repositório 
+- Acesse a [**documentação completa**](documentacao/documentacao.md)
 
- -  Acesse o dicionário de dados realizado no Excel na pasta “documentacao” neste repositório
+ -  Acesse o [**dicionário de dados**](documentacao/banco_de_dados/dicionario_dados_arcoires.xlsx)
 
 
 # 🎨 Design e Apresentação Design no Canva: 
-- Você pode acessar a prototipagem: 👉 Acessar Projeto no Canva
+- Você pode acessar a **prototipagem:** 👉 [Acessar Projeto no Canva](https://canva.link/pztms13j0ivh8h6)
 
 
-- Você pode acessar a apresentação visual: 👉 Ver Projeto no Canva
+- Você pode acessar a apresentação visual: 👉 [Ver Projeto no Canva]()
 
   
 
