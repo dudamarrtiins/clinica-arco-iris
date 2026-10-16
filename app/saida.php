@@ -149,7 +149,7 @@ require_once __DIR__ . '/../includes/functions.php';
             <div class="botoes-container">
                 <input type="submit" value="Registrar Gasto">
                 <input type="reset" value="Cancelar">
-                <a href="/app/gestao.php" class="btn-voltar">Voltar</a>
+                <a href="gestao.php" class="btn-voltar">Voltar</a>
             </div>
         </form>
 
