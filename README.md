@@ -40,6 +40,7 @@ A arquitetura do software foi guiada estritamente pela documentação de requisi
 ESTRUTURA COMPLETA DO PROJETO:
 
 ```bash
+\ clinica_arco_iris
 |   index.php  - página inicial, pergunta se tem conta
 |
 |   painel.php - página principal
@@ -198,16 +199,16 @@ erDiagram
 # Apresentação no Canva: 
 - O material gráfico (prototipagem) e a apresentação visual deste projeto foram desenvolvidos no Canva: 👉 Ver Projeto no Canva
 
+  
 
-
-            ## COMO EXECUTAR A APLICAÇÃO: 
+  ## COMO EXECUTAR A APLICAÇÃO: 
 ### Requisitos
 
 - PostgreSQL instalado e em execução.
 - PHP instalado, com as extensões `PDO` e `pdo_pgsql` habilitadas.
 - Os arquivos deste repositório.
 
-## 1. Obter os arquivos do projeto
+### 1. Obter os arquivos do projeto
 Clone este repositório:
 
  abra o terminal e execulte:
@@ -220,7 +221,7 @@ git clone https://github.com/dudamarrtiins/clinica-arco-iris.git
 cd clinica-arco-ires
 ```
 
-## 2. Criar o usuário e o banco de dados
+### 2. Criar o usuário e o banco de dados
 
 - Baixe o XAMP ou outro para utilizar como servidor.
 - Baixe o Pgadim4 si necessario.
@@ -232,7 +233,7 @@ CREATE USER root WITH PASSWORD 'arcoires';
 CREATE DATABASE arcoires OWNER root;
 ```
 
-## 3. Criar as tabelas
+### 3. Criar as tabelas
 
 Na pasta principal do projeto, o arquivo com a estrutura do banco fica em `database/arcoires.sql`. Execute-o no banco `arcoires` usando o terminal:
 
@@ -245,7 +246,7 @@ Quando solicitado, informe a senha do usuário `root`. Esse comando cria as tabe
 importar o arquivo dump.sql para o banco:
 
 
-## 4. Configurar a conexão da aplicação
+### 4. Configurar a conexão da aplicação
 
 No arquivo `database/config.php`, configure os dados do banco local. O arquivo deve ter este formato:
 
@@ -259,7 +260,7 @@ define('DB_PASS', 'arcoires');  // sua senha
 ?>
 ```
 
-## 5. Conferir o driver do PostgreSQL no PHP
+### 5. Conferir o driver do PostgreSQL no PHP
 
 O PHP precisa ter a extensão `pdo_pgsql` habilitada. Se a aplicação mostrar um erro de driver ou de conexão, confira o arquivo `php.ini` usado pelo PHP e habilite a linha abaixo, removendo o ponto e vírgula inicial, se houver:
 
@@ -269,7 +270,7 @@ extension=pdo_pgsql
 
 Salve o arquivo e reinicie o servidor PHP depois da alteração.
 
-## 6. Iniciar a aplicação
+### 6. Iniciar a aplicação
 
 Abra um terminal na pasta principal do projeto e execute:
 
@@ -277,14 +278,14 @@ Abra um terminal na pasta principal do projeto e execute:
 php -S localhost:8000
 ```
 
-## 7. Acessar o sistema
+### 7. Acessar o sistema
 
 Abra o navegador e acesse:
 ```bash
 http://localhost:8000
 ```
 
-## Problemas comuns
+### Problemas comuns
 
 - **Não foi possível conectar ao banco:** confira se o serviço PostgreSQL está em execução, se o banco se chama `arcoires` e se usuário, senha e porta estão corretos em `database/config_local.php`.
 
