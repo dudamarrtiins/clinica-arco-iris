@@ -105,7 +105,7 @@ require_once __DIR__ . '/../includes/functions.php';
         </div>
 
         <!-- Botão Voltar azul e arredondado em baixo -->
-        <a href="/app/gestao.php" class="btn-voltar">Voltar</a>
+        <a href="gestao.php" class="btn-voltar">Voltar</a>
     </main>
 
     <?php include __DIR__ . '/../includes/footer.php'; ?>
