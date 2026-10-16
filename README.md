@@ -195,13 +195,13 @@ erDiagram
  -  Acesse o [**dicionário de dados**](documentacao/banco_de_dados/dicionario_dados_arcoires.xlsx)
 
 
-# 🎨 Design e Apresentação Design no Canva: 
+# 🎨 Design e Apresentação: 
 - Você pode acessar a **prototipagem:** 👉 [Acessar Projeto no Canva](https://canva.link/pztms13j0ivh8h6)
 
 
 - Você pode acessar a apresentação visual: 👉 [Ver Projeto no Canva]()
 
-  
+---
 
   ## COMO EXECUTAR A APLICAÇÃO: 
 ### Requisitos
@@ -245,8 +245,6 @@ psql -U root -d arcoires -f database/arcoires.sql
 
 Quando solicitado, informe a senha do usuário `root`. Esse comando cria as tabelas necessárias. 
 
-importar o arquivo dump.sql para o banco:
-
 
 ### 4. Configurar a conexão da aplicação
 
@@ -258,7 +256,7 @@ define('DB_HOST', 'localhost'); // adicione o IP da sua maquina no localhost
 define('DB_PORT', '5432');  // porta a ser utilizada
 define('DB_NAME', 'arcoires');  // nome do database
 define('DB_USER', 'root');   // nome usuario
-define('DB_PASS', 'arcoires');  // sua senha
+define('DB_PASS', 'arcoires');  // senha
 ?>
 ```
 
@@ -289,11 +287,9 @@ http://localhost:8000
 
 ### Problemas comuns:
 
-- **Não foi possível conectar ao banco:** confira se o serviço PostgreSQL está em execução, se o banco se chama `arcoires` e se usuário, senha e porta estão corretos em `database/config_local.php`.
+- **Não foi possível conectar ao banco:** confira se o serviço PostgreSQL está em execução, se o banco se chama `arcoires` e se usuário, senha e porta estão corretos em `database/config.php`.
 
 - **`could not find driver`:** habilite `pdo_pgsql` no `php.ini` usado pela aplicação e reinicie o servidor PHP.
 
 - **`psql` não é reconhecido:** use o caminho completo do `psql.exe`.
 
-# 🌈 Conclusão
- O maior desafio durante o desenvolvimento foi manter a precisão na estruturação do banco de dados relacional e a correta manipulação de rotas, funções e parâmetros em PHP. O uso de metodologias ágeis auxiliou na organização das etapas e permitiu a entrega de uma solução robusta e funcional para a gestão da clínica.
