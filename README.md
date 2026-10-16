@@ -19,6 +19,7 @@
 - Navegação e Interface Interativa (RF-005): Painel acessível para transição rápida entre a agenda de atendimentos, cadastro e fluxo financeiro.
 
 
+
 # 📐 Engenharia de Requisitos (Padrão ISO 29148) 
 
 A arquitetura do software foi guiada estritamente pela documentação de requisitos para garantir consistência lógica e regras bem definidas:
@@ -26,6 +27,7 @@ A arquitetura do software foi guiada estritamente pela documentação de requisi
 ## Regras de Negócio Fundamentais (RN)
 
 - RN-001 (Valor da Consulta): Definição do valor padrão de R$ 200,00 para cada consulta agendada. RN-002 (Liberação de Atendimento): Sessões subsequentes à primeira só são liberadas caso a consulta anterior já tenha a confirmação de pagamento.
+
 
 
 # 🛠️ Tecnologias Utilizadas
@@ -39,55 +41,86 @@ ESTRUTURA COMPLETA DO PROJETO:
 
 ```bash
 |   index.php  - página inicial, pergunta se tem conta
+|
 |   painel.php - página principal
+|
 |   README.md  - este arquivo README
 |   
 +---app  - pasta com todas as páginas "principais"
+|
 |       agenda.php  - possui o calendario
-|       agendamento.php - administra os agendamentos 
+|
+|       agendamento.php - administra os agendamentos
+|
 |       apaga.php - apaga paciente
-|       atualizar.php - atualiza as informações dos pacientes
+|
+|       atualizar.php - atualiza as infor dos pacientes
+|
 |       cadastraPaciente.php - cadastra os pacientes
-|       consultar.php - pesquisa um paciente e seus dados 
+|
+|       consultar.php - pesquisa um paciente e seus dados
+|
 |       entrada.php - faz a entrada de um valor em dinheiro
-|       extrato.php - mostra o extrato de entradas e saídas 
-|       gestao.php - painel principal da entrada, saída e extrato
-|       prontuario.php - mostra o nome de todos ospacientes
+|
+|       extrato.php - mostra o extrato de entradas e saídas
+| 
+|       gestao.php - painel principal
+|
+|       prontuario.php - mostra o nome de todos os pacientes
+|
 |       remarcar.php - remarca um atendimento
+|
 |       saida.php - faz a saída de um valor em dinheiro
-|       status.php - muda o status da consulta ( agendada, cancelada, realizada )
+|
+|       status.php - muda o status da consulta 
 |       
 +---database - pasta com os arquivos de conexão
-|       arcoires.sql
-|       config.php
+|
+|       arcoires.sql - dump do banco
+|
+|       config.php - configuração de conexão|
+|
 |       configLocal.php
+|
 |       connect.php
+|
 |       connet2.php
 |       
 |       
 +---documentacao
-|   |   documentacao.md
+|
+|   |   documentacao.md  - documentação completa
 |   |   
-|   \---banco_de_dados
-|           dicionario_dados_arcoires.xlsx
-|           mermaid.md
+|   \---banco_de_dados 
+|           dicionario_dados_arcoires.xlsx - dump do banco
+|
+|           mermaid.md  - DER 
 |           
 +---includes
-|       footer.php
-|       functions.php
-|       header.php
-|       headerProntuario.php
+|       footer.php - rodapé do site
+| 
+|       functions.php - funções
+
+|       header.php - Nav principal
+
+|       headerProntuario.php - Nav do prontuário 
 |       
-+---login
-|       cadastrar.php
-|       login.php
-|       logout.php
-|       verifica_user
++---login - Pasta com os arquivos de login
+|
+|       cadastrar.php - cadastra o usuário
+
+|       login.php - faz o login
+
+|       logout.php - página para sair do site
+
+|       verifica_user - verifica se o user existe 
 |       
 \---sql
-        backup_clinica.sql
+        backup_clinica.sql - dump do banco
 ```
 
+
+                 DER do Banco de Dados:
 ```mermaid
 erDiagram
 
@@ -154,7 +187,7 @@ erDiagram
 
 # Acesse os demais arquivos:
 
-- Acesse a documentação completa na pasta “ documentacao” neste repositório
+- Acesse a documentação completa na pasta “ documentacao” neste repositório 
 
  -  Acesse o dicionário de dados realizado no Excel na pasta “documentacao” neste repositório
 
@@ -167,7 +200,7 @@ erDiagram
 
 
 
-## COMO EXECUTAR A APLICAÇÃO: 
+            ## COMO EXECUTAR A APLICAÇÃO: 
 ### Requisitos
 
 - PostgreSQL instalado e em execução.
