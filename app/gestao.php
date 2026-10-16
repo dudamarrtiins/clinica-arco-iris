@@ -80,9 +80,9 @@ require_once __DIR__ . '/../includes/functions.php';
 
         <!-- BARRA AZUL COM SEUS LINKS DE AÇÃO -->
         <div class="barra-gestao-acoes">
-            <a href="/app/entrada.php">Registrar Ganho</a>
-            <a href="/app/saida.php">Registrar Gasto</a>
-            <a href="/app/extrato.php">Ver extrato</a>
+            <a href="entrada.php">Registrar Ganho</a>
+            <a href="saida.php">Registrar Gasto</a>
+            <a href="extrato.php">Ver extrato</a>
         </div>
     </main>
 
