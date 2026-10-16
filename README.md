@@ -194,10 +194,10 @@ erDiagram
 
 
 # 🎨 Design e Apresentação Design no Canva: 
-- Você pode acessar o protótipo da prototipagem: 👉 Acessar Projeto no Canva
+- Você pode acessar a prototipagem: 👉 Acessar Projeto no Canva
 
-# Apresentação no Canva: 
-- O material gráfico (prototipagem) e a apresentação visual deste projeto foram desenvolvidos no Canva: 👉 Ver Projeto no Canva
+
+- Você pode acessar a apresentação visual: 👉 Ver Projeto no Canva
 
   
 
@@ -285,7 +285,7 @@ Abra o navegador e acesse:
 http://localhost:8000
 ```
 
-### Problemas comuns
+### Problemas comuns:
 
 - **Não foi possível conectar ao banco:** confira se o serviço PostgreSQL está em execução, se o banco se chama `arcoires` e se usuário, senha e porta estão corretos em `database/config_local.php`.
 
