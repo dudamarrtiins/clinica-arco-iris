@@ -105,9 +105,9 @@
 
         <div class="card-portal">
             <p>Já possui uma conta?</p>
-            <a href="/login/login.php">Clique aqui para logar</a>
+            <a href="login/login.php">Clique aqui para logar</a>
             <p>Não possui uma conta?</p>
-            <a href="/login/cadastrar.php">Cadastra-se</a>
+            <a href="login/cadastrar.php">Cadastra-se</a>
         </div>
     </main>
 
