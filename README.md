@@ -220,13 +220,13 @@ Clone este repositório:
 git clone https://github.com/dudamarrtiins/clinica-arco-iris.git
 
 # acesse a pasta do projeto:
-cd clinica-arco-ires
+cd clinica_arco_ires
 ```
 
 ### 2. Criar o usuário e o banco de dados
 
-- Baixe o XAMP ou outro para utilizar como servidor.
-- Baixe o Pgadim4 si necessario.
+- Baixe o XAMP, Moba ou outro app para utilizar para a manipulação da aplicação.
+- Baixe o Pgadim4 ou o Postgres si necessario.
 
 Acesse o Postgres e crie um novo banco de dados e um novo usuario
 
@@ -243,7 +243,7 @@ Na pasta principal do projeto, o arquivo com a estrutura do banco fica em `datab
 psql -U root -d arcoires -f database/arcoires.sql
 ```
 
-Quando solicitado, informe a senha do usuário `root`. Esse comando cria as tabelas necessárias. 
+Quando solicitado, informe a senha do usuário `root`. Esse comando cria as tabelas necessárias para a aplicação. 
 
 
 ### 4. Configurar a conexão da aplicação
